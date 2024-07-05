@@ -1,15 +1,37 @@
 from flask import Flask
+from pymongo import MongoClient
+
 
 app = Flask(__name__)
 
 
-@app.route('/')
-def home():
-    return 'Welcome to the Drive Buddy Driving School API!'
+DATABASE_URL = "mongodb://localhost:5000/"
 
-@app.route('/courses')
-def get_courses():
-    return {'courses': [{'name': 'Beginner Driving Course'}, {'name': 'Advanced Driving Course'}]}
+client = MongoClient(DATABASE_URL)
+db = client["drive_buddy_db"]
+
+courses_collection = db["courses"]
+instructors_collection = db["instructors"]
+
+
+
+
+
+@app.route('/courses', methods=['POST'])
+def create_course():
+    course_data = request.get_json()
+    courses_collection.insert_one(course_data)
+    return {'message': 'Course created successfully!'}
+
+@app.route('/courses/<course_id>', methods=['GET'])
+def get_course(course_id):
+    course = courses_collection.find_one({"_id": ObjectId(course_id)})
+    if course:
+        return course
+    else:
+        return {'message': 'Course not found'}, 404
+
+
 
 
 if __name__ == '__main__':
