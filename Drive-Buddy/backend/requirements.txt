@@ -1,0 +1,5 @@
+pip install Flask # for install flask
+pip install --upgrade Flask #for update Flask to work
+pip install pymongo #for mongodb
+
+
