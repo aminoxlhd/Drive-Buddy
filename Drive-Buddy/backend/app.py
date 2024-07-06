@@ -1,11 +1,14 @@
+import os
+from dotenv import load_dotenv
+
 from flask import Flask
 from pymongo import MongoClient
 
 
 app = Flask(__name__)
 
-
-DATABASE_URL = "mongodb://localhost:5000/"
+load_dotenv()
+DATABASE_URL = os.getenv("MONGODB")
 
 client = MongoClient(DATABASE_URL)
 db = client["drive_buddy_db"]
@@ -25,9 +28,9 @@ def create_course():
 
 @app.route('/courses/<course_id>', methods=['GET'])
 def get_course(course_id):
-    course = courses_collection.find_one({"_id": ObjectId(course_id)})
+    course = courses_collection.find_one({"id": course_id})
     if course:
-        return course
+        return course['title']
     else:
         return {'message': 'Course not found'}, 404
 
