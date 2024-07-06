@@ -1,4 +1,6 @@
 import os
+
+import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
