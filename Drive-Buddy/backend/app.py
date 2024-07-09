@@ -169,5 +169,17 @@ def create_student():
         return {'message': 'Student created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
+@app.route('/student/<student_id>', methods=['GET'])
+def get_student(student_id):
+    student = student_collection.find_one({"id": student_id})
+
+    if student:
+        student_schema = StudentSchema()
+        student_dict = student_schema.dump(student)
+        return student_dict
+
+    else:
+        return {'message': 'Student not found'}, 404
 if __name__ == '__main__':
     app.run(debug=True)
