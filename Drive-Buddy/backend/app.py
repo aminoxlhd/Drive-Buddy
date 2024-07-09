@@ -3,7 +3,7 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema, StudentSchema
+from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ courses_collection = db["courses"]
 category_collection = db["category"]
 instructors_collection = db["instructors"]
 student_collection = db["student"]
+teacher_collection = db["teacher"]
 
 
 
@@ -206,5 +207,68 @@ def delete_student(student_id):
         return {'message': 'Student deleted successfully!'}
     else:
         return {'message': 'Student not found'}, 404
+
+##############
+@app.route('/teacher', methods=['GET'])
+def get_all_teacher():
+    teachers = list(teacher_collection.find())
+    teacher_list = []
+    teacher_schema = TeacherSchema()
+
+    for teacher in teachers:
+        if teacher:
+            teacher_dict = teacher_schema.dump(teacher)
+            teacher_list.append(teacher_dict)
+
+    return jsonify(teacher_list)
+
+@app.route('/teacher', methods=['POST'])
+def create_teacher():
+    teacher_data = request.get_json()
+    teacher_schema = TeacherSchema()
+    try:
+        validated_data = teacher_schema.load(teacher_data)
+        teacher_collection.insert_one(validated_data)
+        return {'message': 'Teacher created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+@app.route('/teacher/<teacher_id>', methods=['GET'])
+def get_teacher(teacher_id):
+    teacher = teacher_collection.find_one({"id": teacher_id})
+
+    if teacher:
+        teacher_schema = TeacherSchema()
+        teacher_dict = teacher_schema.dump(teacher)
+        return teacher_dict
+
+    else:
+        return {'message': 'Teacher not found'}, 404
+
+@app.route('/teacher/<teacher_id>', methods=['PUT'])
+def update_teacher(teacher_id):
+    teacher_data = request.get_json()
+    teacher_schema = TeacherSchema()
+
+    try:
+        validated_data = teacher_schema.load(teacher_data)
+        teacher_category = teacher_collection.find_one_and_update(
+            {"id": teacher_id}, {"$set": validated_data})
+        if teacher_category:
+            return {'message': 'Teacher updated successfully!'}
+        else:
+            return {'message': 'Teacher not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+
+@app.route('/teacher/<teacher_id>', methods=['DELETE'])
+def delete_teacher(teacher_id):
+    teacher = teacher_collection.find_one_and_delete({"id": teacher_id})
+    if teacher:
+        return {'message': 'Teacher deleted successfully!'}
+    else:
+        return {'message': 'Teacher not found'}, 404
+
 if __name__ == '__main__':
     app.run(debug=True)

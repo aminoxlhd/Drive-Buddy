@@ -13,6 +13,23 @@ class CategorySchema(Schema):
     title = fields.Str()
     content = fields.Str()
 
+
+class TeacherSchema(Schema):
+    id = fields.Str(required=True)
+    adreess = fields.Str()
+    vehiculeid = fields.Str()
+    permis = fields.Str()
+    availibiltiy = fields.Str()
+    student_id = fields.Str()
+    email = fields.Email(required=True)
+    first_name = fields.Str(required=True)
+    last_name = fields.Str(required=True)
+    role = fields.Str()
+    date_birth = fields.Str()
+    phone_number = fields.Str()
+    media = fields.Str()
+
+
 class StudentSchema(Schema):
     id = fields.Str(required=True)
     email = fields.Email(required=True)
@@ -23,3 +40,4 @@ class StudentSchema(Schema):
     phone_number = fields.Str()
     media = fields.Str()
     teacherid = fields.Str()
+
