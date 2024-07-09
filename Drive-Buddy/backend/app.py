@@ -3,7 +3,7 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema
+from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema
 
 app = Flask(__name__)
 
@@ -18,6 +18,7 @@ category_collection = db["category"]
 instructors_collection = db["instructors"]
 student_collection = db["student"]
 teacher_collection = db["teacher"]
+vehicule_collection = db["vehicule"]
 
 
 
@@ -269,6 +270,68 @@ def delete_teacher(teacher_id):
         return {'message': 'Teacher deleted successfully!'}
     else:
         return {'message': 'Teacher not found'}, 404
+
+#############
+@app.route('/vehicule', methods=['GET'])
+def get_all_vehicule():
+    vehicules = list(vehicule_collection.find())
+    vehicule_list = []
+    vehicule_schema = VehiculeSchema()
+
+    for vehicule in vehicules:
+        if vehicule:
+            vehicule_dict = vehicule_schema.dump(vehicule)
+            vehicule_list.append(vehicule_dict)
+
+    return jsonify(vehicule_list)
+
+@app.route('/vehicule', methods=['POST'])
+def create_vehicule():
+    vehicule_data = request.get_json()
+    vehicule_schema = VehiculeSchema()
+    try:
+        validated_data = vehicule_schema.load(vehicule_data)
+        vehicule_collection.insert_one(validated_data)
+        return {'message': 'Vehicule created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+@app.route('/vehicule/<vehicule_id>', methods=['GET'])
+def get_vehicule(vehicule_id):
+    vehicule = vehicule_collection.find_one({"id": vehicule_id})
+
+    if vehicule:
+        vehicule_schema = VehiculeSchema()
+        vehicule_dict = vehicule_schema.dump(vehicule)
+        return vehicule_dict
+
+    else:
+        return {'message': 'Vehicule not found'}, 404
+
+@app.route('/vehicule/<vehicule_id>', methods=['PUT'])
+def update_vehicule(vehicule_id):
+    vehicule_data = request.get_json()
+    vehicule_schema = VehiculeSchema()
+
+    try:
+        validated_data = vehicule_schema.load(vehicule_data)
+        vehicule_category = vehicule_collection.find_one_and_update(
+            {"id": vehicule_id}, {"$set": validated_data})
+        if vehicule_category:
+            return {'message': 'Vehicule updated successfully!'}
+        else:
+            return {'message': 'Vehicule not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+
+@app.route('/vehicule/<vehicule_id>', methods=['DELETE'])
+def delete_vehicule(vehicule_id):
+    vehicule = vehicule_collection.find_one_and_delete({"id": vehicule_id})
+    if vehicule:
+        return {'message': 'Vehicule deleted successfully!'}
+    else:
+        return {'message': 'Vehicule not found'}, 404
 
 if __name__ == '__main__':
     app.run(debug=True)
