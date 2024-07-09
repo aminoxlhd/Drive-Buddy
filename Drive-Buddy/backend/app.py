@@ -199,5 +199,12 @@ def update_student(student_id):
         return jsonify({'errors': err.messages}), 400
 
 
+@app.route('/student/<student_id>', methods=['DELETE'])
+def delete_student(student_id):
+    student = student_collection.find_one_and_delete({"id": student_id})
+    if student:
+        return {'message': 'Student deleted successfully!'}
+    else:
+        return {'message': 'Student not found'}, 404
 if __name__ == '__main__':
     app.run(debug=True)
