@@ -181,5 +181,23 @@ def get_student(student_id):
 
     else:
         return {'message': 'Student not found'}, 404
+
+@app.route('/student/<student_id>', methods=['PUT'])
+def update_student(student_id):
+    student_data = request.get_json()
+    student_schema = StudentSchema()
+
+    try:
+        validated_data = student_schema.load(student_data)
+        student_category = student_collection.find_one_and_update(
+            {"id": student_id}, {"$set": validated_data})
+        if student_category:
+            return {'message': 'Student updated successfully!'}
+        else:
+            return {'message': 'Student not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+
 if __name__ == '__main__':
     app.run(debug=True)
