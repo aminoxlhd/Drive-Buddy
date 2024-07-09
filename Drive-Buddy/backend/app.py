@@ -3,7 +3,7 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema
+from models import  CourseSchema, CategorySchema, StudentSchema
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ db = client["drive_buddy_db"]
 courses_collection = db["courses"]
 category_collection = db["category"]
 instructors_collection = db["instructors"]
+student_collection = db["student"]
 
 
 
@@ -80,7 +81,7 @@ def get_all_courses():
             course_list.append(course_dict)
 
     return jsonify(course_list)
-
+##############
 
 @app.route('/category', methods=['GET'])
 def get_all_category():
@@ -143,6 +144,30 @@ def delete_category(category_id):
         return {'message': 'Category deleted successfully!'}
     else:
         return {'message': 'Category not found'}, 404
+##############
 
+@app.route('/student', methods=['GET'])
+def get_all_student():
+    students = list(student_collection.find())
+    student_list = []
+    student_schema = StudentSchema()
+
+    for student in students:
+        if student:
+            student_dict = student_schema.dump(student)
+            student_list.append(student_dict)
+
+    return jsonify(student_list)
+
+@app.route('/student', methods=['POST'])
+def create_student():
+    student_data = request.get_json()
+    student_schema = StudentSchema()
+    try:
+        validated_data = student_schema.load(student_data)
+        student_collection.insert_one(validated_data)
+        return {'message': 'Student created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
 if __name__ == '__main__':
     app.run(debug=True)
