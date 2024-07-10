@@ -3,7 +3,7 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema
+from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, PurchaseSchema
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ student_collection = db["student"]
 teacher_collection = db["teacher"]
 vehicule_collection = db["vehicule"]
 media_collection = db["media"]
-
+purchase_collection = db["purchase"]
 
 
 
@@ -337,7 +337,7 @@ def delete_vehicule(vehicule_id):
 #############
 @app.route('/media', methods=['GET'])
 def get_all_media():
-    medias = list(vehicule_collection.find())
+    medias = list(media_collection.find())
     media_list = []
     media_schema = MediaSchema()
 
@@ -391,10 +391,72 @@ def update_media(media_id):
 @app.route('/media/<media_id>', methods=['DELETE'])
 def delete_media(media_id):
     media = media_collection.find_one_and_delete({"id": media_id})
-    if vehicule:
+    if media:
         return {'message': 'Media deleted successfully!'}
     else:
         return {'message': 'Media not found'}, 404
+
+#############
+@app.route('/purchase', methods=['GET'])
+def get_all_purchase():
+    purchases = list(purchase_collection.find())
+    purchase_list = []
+    purchase_schema = PurchaseSchema()
+
+    for purchase in purchases:
+        if purchase:
+            purchase_dict = purchase_schema.dump(purchase)
+            purchase_list.append(purchase_dict)
+
+    return jsonify(purchase_list)
+
+@app.route('/purchase', methods=['POST'])
+def create_purchase():
+    purchase_data = request.get_json()
+    purchase_schema = PurchaseSchema()
+    try:
+        purchase_data = purchase_schema.load(purchase_data)
+        purchase_collection.insert_one(purchase_data)
+        return {'message': 'Purchase created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+@app.route('/purchase/<purchase_id>', methods=['GET'])
+def get_purchase(purchase_id):
+    purchase = purchase_collection.find_one({"id": purchase_id})
+
+    if purchase:
+        purchase_schema = PurchaseSchema()
+        purchase_dict = purchase_schema.dump(purchase)
+        return purchase_dict
+
+    else:
+        return {'message': 'Purchase not found'}, 404
+
+@app.route('/purchase/<purchase_id>', methods=['PUT'])
+def update_purchase(purchase_id):
+    purchase_data = request.get_json()
+    purchase_schema = PurchaseSchema()
+
+    try:
+        validated_data = purchase_schema.load(purchase_data)
+        purchase_category = purchase_collection.find_one_and_update(
+            {"id": purchase_id}, {"$set": validated_data})
+        if purchase_category:
+            return {'message': 'Purchase updated successfully!'}
+        else:
+            return {'message': 'Purchase not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+
+@app.route('/purchase/<purchase_id>', methods=['DELETE'])
+def delete_purchase(purchase_id):
+    purchase = purchase_collection.find_one_and_delete({"id": purchase_id})
+    if purchase:
+        return {'message': 'Purchase deleted successfully!'}
+    else:
+        return {'message': 'Purchase not found'}, 404
 
 if __name__ == '__main__':
     app.run(debug=True)

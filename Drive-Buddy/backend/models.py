@@ -53,3 +53,11 @@ class MediaSchema(Schema):
     id = fields.Str()
     photo = fields.Str()
     permis = fields.Str()
+
+class PurchaseSchema(Schema):
+    id = fields.Str()
+    studentid = fields.Str()
+    teacherid = fields.Str()
+    cateegory = fields.Str()
+    price = fields.Str()
+    date = fields.Str()
