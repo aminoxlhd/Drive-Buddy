@@ -3,7 +3,7 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema
+from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema
 
 app = Flask(__name__)
 
@@ -19,6 +19,7 @@ instructors_collection = db["instructors"]
 student_collection = db["student"]
 teacher_collection = db["teacher"]
 vehicule_collection = db["vehicule"]
+media_collection = db["media"]
 
 
 
@@ -332,6 +333,68 @@ def delete_vehicule(vehicule_id):
         return {'message': 'Vehicule deleted successfully!'}
     else:
         return {'message': 'Vehicule not found'}, 404
+
+#############
+@app.route('/media', methods=['GET'])
+def get_all_media():
+    medias = list(vehicule_collection.find())
+    media_list = []
+    media_schema = MediaSchema()
+
+    for media in medias:
+        if media:
+            media_dict = media_schema.dump(media)
+            media_list.append(media_dict)
+
+    return jsonify(media_list)
+
+@app.route('/media', methods=['POST'])
+def create_media():
+    media_data = request.get_json()
+    media_schema = MediaSchema()
+    try:
+        media_data = media_schema.load(media_data)
+        media_collection.insert_one(media_data)
+        return {'message': 'Media created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+@app.route('/media/<media_id>', methods=['GET'])
+def get_media(media_id):
+    media = media_collection.find_one({"id": media_id})
+
+    if media:
+        media_schema = MediaSchema()
+        media_dict = media_schema.dump(media)
+        return media_dict
+
+    else:
+        return {'message': 'Media not found'}, 404
+
+@app.route('/media/<media_id>', methods=['PUT'])
+def update_media(media_id):
+    media_data = request.get_json()
+    media_schema = MediaSchema()
+
+    try:
+        validated_data = media_schema.load(media_data)
+        media_category = media_collection.find_one_and_update(
+            {"id": media_id}, {"$set": validated_data})
+        if media_category:
+            return {'message': 'Media updated successfully!'}
+        else:
+            return {'message': 'Media not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
+
+
+@app.route('/media/<media_id>', methods=['DELETE'])
+def delete_media(media_id):
+    media = media_collection.find_one_and_delete({"id": media_id})
+    if vehicule:
+        return {'message': 'Media deleted successfully!'}
+    else:
+        return {'message': 'Media not found'}, 404
 
 if __name__ == '__main__':
     app.run(debug=True)

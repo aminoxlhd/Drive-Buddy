@@ -48,3 +48,8 @@ class VehiculeSchema(Schema):
     module = fields.Str()
     gearbox = fields.Str()
     price = fields.Str()
+
+class MediaSchema(Schema):
+    id = fields.Str()
+    photo = fields.Str()
+    permis = fields.Str()
