@@ -1,14 +1,10 @@
 import os
-from datetime import datetime, timedelta
-from functools import wraps
-
-import jwt
 import marshmallow
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import jwt_required, JWTManager, create_access_token, get_jwt_identity
 from pymongo import MongoClient
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
 from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
     PurchaseSchema
 
