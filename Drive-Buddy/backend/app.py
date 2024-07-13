@@ -1,12 +1,25 @@
 import os
+from datetime import datetime, timedelta
+from functools import wraps
+
+import jwt
 import marshmallow
 from dotenv import load_dotenv
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import jwt_required, JWTManager, create_access_token, get_jwt_identity
 from pymongo import MongoClient
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
     PurchaseSchema
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = "Fvx5pWKDaR20YcA1l30"
+app.config['JWT_SECURITY_KEY'] = "Fvx5pWKDaR20YcA1l30"
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+app.config['JWT_HEADER_NAME'] = 'Authorization'
+app.config['JWT_HEADER_TYPE'] = 'Bearer'
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
 
 load_dotenv()
 DATABASE_URL = os.getenv("MONGODB")
@@ -22,6 +35,9 @@ teacher_collection = db["teacher"]
 vehicule_collection = db["vehicule"]
 media_collection = db["media"]
 purchase_collection = db["purchase"]
+
+
+
 
 
 @app.route('/courses', methods=['POST'])
@@ -180,6 +196,9 @@ def create_student():
     student_schema = StudentSchema()
     try:
         validated_data = student_schema.load(student_data)
+        user_password = validated_data.get('password')
+        hashed_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
+        validated_data['password'] = hashed_password
         student_collection.insert_one(validated_data)
         return {'message': 'Student created successfully!'}
     except marshmallow.ValidationError as err:
@@ -248,6 +267,9 @@ def create_teacher():
     teacher_schema = TeacherSchema()
     try:
         validated_data = teacher_schema.load(teacher_data)
+        user_password = validated_data.get('password')
+        hashed_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
+        validated_data['password'] = hashed_password
         teacher_collection.insert_one(validated_data)
         return {'message': 'Teacher created successfully!'}
     except marshmallow.ValidationError as err:
@@ -297,7 +319,10 @@ def delete_teacher(teacher_id):
 
 
 @app.route('/vehicule', methods=['GET'])
+@jwt_required()
 def get_all_vehicule():
+    username = get_jwt_identity()
+    print(username)
     vehicules = list(vehicule_collection.find())
     vehicule_list = []
     vehicule_schema = VehiculeSchema()
@@ -496,6 +521,23 @@ def delete_purchase(purchase_id):
     else:
         return {'message': 'Purchase not found'}, 404
 
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
+    type = data['type']
+    if type == 'student':
+        user = student_collection.find_one({"email": email})
+    else:
+        user = teacher_collection.find_one({"email": email})
+
+    if user and bcrypt.check_password_hash(user.get('password'), password):
+        access_token = create_access_token(identity=user.get('id'))
+        return jsonify({'message': 'Login Success', 'access_token': access_token})
+    else:
+        return jsonify({'message': 'Login Failed'}), 401
 
 if __name__ == '__main__':
     app.run(debug=True)

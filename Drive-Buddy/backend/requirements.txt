@@ -1,5 +1,8 @@
 Flask
 pymongo
 python-dotenv
-Flask pymongo
+Flask
+pymongo
 marshmallow
+flask_jwt_extended
+flask-bcrypt

@@ -22,6 +22,7 @@ class TeacherSchema(Schema):
     availibiltiy = fields.Str()
     student_id = fields.Str()
     email = fields.Email(required=True)
+    password = fields.Str(required=True)
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     role = fields.Str()
@@ -33,6 +34,7 @@ class TeacherSchema(Schema):
 class StudentSchema(Schema):
     id = fields.Str(required=True)
     email = fields.Email(required=True)
+    password = fields.Str(required=True)
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     role = fields.Str()
@@ -40,6 +42,7 @@ class StudentSchema(Schema):
     phone_number = fields.Str()
     media = fields.Str()
     teacherid = fields.Str()
+
 
 class VehiculeSchema(Schema):
     id = fields.Str()
@@ -49,10 +52,12 @@ class VehiculeSchema(Schema):
     gearbox = fields.Str()
     price = fields.Str()
 
+
 class MediaSchema(Schema):
     id = fields.Str()
     photo = fields.Str()
     permis = fields.Str()
+
 
 class PurchaseSchema(Schema):
     id = fields.Str()
