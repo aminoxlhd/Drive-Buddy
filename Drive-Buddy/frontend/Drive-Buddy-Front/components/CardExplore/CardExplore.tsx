@@ -1,0 +1,27 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './CardExplore.scss';
+
+const CardExplore = ({ id, imageUrl, title, category, rating, ownerName, ownerPhoto, countryEmoji }) => (
+    <div className="card-explore">
+        <Link to={`/car-details/${id}`}>
+            <div className="image-container">
+                <img src={imageUrl} alt={title} className="car-image" />
+                <div className="owner-info">
+                    <img src={ownerPhoto} alt={ownerName} className="owner-photo" />
+                    <div className="owner-details">
+                        <span>{ownerName}</span>
+                        <span>{countryEmoji}</span>
+                    </div>
+                </div>
+            </div>
+            <div className="card-details">
+                <h3 className="card-title">{title}</h3>
+                <p className="card-category">Category: {category}</p>
+                <p className="card-rating">Rating: {'⭐'.repeat(rating)} ({rating})</p>
+            </div>
+        </Link>
+    </div>
+);
+
+export default CardExplore;

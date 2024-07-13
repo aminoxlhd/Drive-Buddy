@@ -1,0 +1,104 @@
+.car-details-container {
+    text-align: center;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+}
+
+.car-details-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.car-image-section {
+    flex: 1;
+    max-width: 45%;
+
+    .car-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .car-info {
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 5px 0;
+            color: #555;
+        }
+    }
+}
+
+.reservation-section {
+    flex: 1;
+    max-width: 45%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    input {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .paypal-button,
+    .credit-card-button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .paypal-button {
+        background-color: #ffc439;
+        color: #111;
+
+        &:hover {
+            background-color: #ffb600;
+        }
+    }
+
+    .credit-card-button {
+        background-color: #0070ba;
+        color: #fff;
+
+        &:hover {
+            background-color: #005fa3;
+        }
+    }
+}
+
+.recommended {
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+
+}

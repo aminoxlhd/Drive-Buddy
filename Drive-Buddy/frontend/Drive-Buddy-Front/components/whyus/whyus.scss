@@ -1,0 +1,43 @@
+.why-us {
+    text-align: center;
+    padding-bottom: 2rem;
+
+    .why-us-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        color: #333;
+        text-align: left;
+        width: 500px;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5rem;
+
+        .card {
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 300px;
+            text-align: left;
+            background: transparent;
+
+            .icon {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .card-description {
+                font-size: 1rem;
+                color: #666;
+            }
+        }
+    }
+}

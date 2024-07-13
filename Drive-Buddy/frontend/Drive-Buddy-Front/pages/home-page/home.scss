@@ -1,0 +1,60 @@
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 4rem;
+
+    a {
+        text-decoration: none;
+        color: var(--secondary-color);
+
+        &:hover {
+            color: #0e7a0e;
+        }
+    }
+}
+
+.hero-title {
+    font-size: 3rem;
+}
+
+.hero-subtitle {
+    margin: 20px 0;
+    font-size: 18px;
+    color: #666;
+    width: 50%;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.car-image {
+    display: flex;
+    justify-content: center;
+
+    .background-car {
+        position: absolute;
+        top: 200px;
+        left: 0px;
+        width: 70%;
+        height: 80%;
+        border-radius: 50%;
+        background: rgb(45, 171, 196);
+        background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(90, 189, 247) 29%, rgba(29, 255, 70, 1) 85%);
+        opacity: 0.5;
+        filter: blur(50rem);
+        z-index: -1;
+    }
+
+    img {
+        width: 50%;
+        height: auto;
+        object-fit: cover;
+    }
+}

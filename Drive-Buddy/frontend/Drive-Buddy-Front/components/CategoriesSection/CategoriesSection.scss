@@ -1,0 +1,60 @@
+.categories-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem;
+    margin: 20px;
+
+    .section-title {
+        margin-bottom: 3rem;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .categories-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+
+        .swiper {
+            width: 100%;
+            padding-bottom: 50px;
+
+            .swiper-slide {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .card {
+            border-radius: 10px;
+
+            .overlay {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                padding: 20px;
+
+                h3 {
+                    margin-bottom: 10px;
+                }
+
+                p {
+                    margin-bottom: 0; // No margin at the bottom for the last element
+                }
+            }
+        }
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        color: var(--secondary-color);
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: var(--swiper-pagination-bullet-opacity, 1);
+        background: var(--swiper-pagination-color, var(--primary-color));
+    }
+}
