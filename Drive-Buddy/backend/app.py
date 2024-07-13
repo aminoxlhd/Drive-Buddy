@@ -33,9 +33,6 @@ media_collection = db["media"]
 purchase_collection = db["purchase"]
 
 
-
-
-
 @app.route('/courses', methods=['POST'])
 def create_course():
     course_data = request.get_json()
@@ -534,6 +531,7 @@ def login():
         return jsonify({'message': 'Login Success', 'access_token': access_token})
     else:
         return jsonify({'message': 'Login Failed'}), 401
+
 
 if __name__ == '__main__':
     app.run(debug=True)
