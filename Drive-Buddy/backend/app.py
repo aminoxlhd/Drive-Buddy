@@ -3,7 +3,8 @@ import marshmallow
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
-from models import  CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, PurchaseSchema
+from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
+    PurchaseSchema
 
 app = Flask(__name__)
 
@@ -23,7 +24,6 @@ media_collection = db["media"]
 purchase_collection = db["purchase"]
 
 
-
 @app.route('/courses', methods=['POST'])
 def create_course():
     course_data = request.get_json()
@@ -34,6 +34,7 @@ def create_course():
         return {'message': 'Course created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/courses/<course_id>', methods=['GET'])
 def get_course(course_id):
@@ -46,6 +47,7 @@ def get_course(course_id):
 
     else:
         return {'message': 'Course not found'}, 404
+
 
 @app.route('/courses/<course_id>', methods=['PUT'])
 def update_course(course_id):
@@ -72,6 +74,7 @@ def delete_course(course_id):
     else:
         return {'message': 'Course not found'}, 404
 
+
 @app.route('/courses', methods=['GET'])
 def get_all_courses():
     courses = list(courses_collection.find())
@@ -84,7 +87,10 @@ def get_all_courses():
             course_list.append(course_dict)
 
     return jsonify(course_list)
+
+
 ##############
+
 
 @app.route('/category', methods=['GET'])
 def get_all_category():
@@ -98,6 +104,8 @@ def get_all_category():
             category_list.append(category_dict)
 
     return jsonify(category_list)
+
+
 @app.route('/category', methods=['POST'])
 def create_category():
     category_data = request.get_json()
@@ -147,7 +155,10 @@ def delete_category(category_id):
         return {'message': 'Category deleted successfully!'}
     else:
         return {'message': 'Category not found'}, 404
+
+
 ##############
+
 
 @app.route('/student', methods=['GET'])
 def get_all_student():
@@ -162,6 +173,7 @@ def get_all_student():
 
     return jsonify(student_list)
 
+
 @app.route('/student', methods=['POST'])
 def create_student():
     student_data = request.get_json()
@@ -172,6 +184,7 @@ def create_student():
         return {'message': 'Student created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/student/<student_id>', methods=['GET'])
 def get_student(student_id):
@@ -184,6 +197,7 @@ def get_student(student_id):
 
     else:
         return {'message': 'Student not found'}, 404
+
 
 @app.route('/student/<student_id>', methods=['PUT'])
 def update_student(student_id):
@@ -210,7 +224,10 @@ def delete_student(student_id):
     else:
         return {'message': 'Student not found'}, 404
 
+
 ##############
+
+
 @app.route('/teacher', methods=['GET'])
 def get_all_teacher():
     teachers = list(teacher_collection.find())
@@ -224,6 +241,7 @@ def get_all_teacher():
 
     return jsonify(teacher_list)
 
+
 @app.route('/teacher', methods=['POST'])
 def create_teacher():
     teacher_data = request.get_json()
@@ -234,6 +252,7 @@ def create_teacher():
         return {'message': 'Teacher created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/teacher/<teacher_id>', methods=['GET'])
 def get_teacher(teacher_id):
@@ -246,6 +265,7 @@ def get_teacher(teacher_id):
 
     else:
         return {'message': 'Teacher not found'}, 404
+
 
 @app.route('/teacher/<teacher_id>', methods=['PUT'])
 def update_teacher(teacher_id):
@@ -272,7 +292,10 @@ def delete_teacher(teacher_id):
     else:
         return {'message': 'Teacher not found'}, 404
 
+
 #############
+
+
 @app.route('/vehicule', methods=['GET'])
 def get_all_vehicule():
     vehicules = list(vehicule_collection.find())
@@ -286,6 +309,7 @@ def get_all_vehicule():
 
     return jsonify(vehicule_list)
 
+
 @app.route('/vehicule', methods=['POST'])
 def create_vehicule():
     vehicule_data = request.get_json()
@@ -296,6 +320,7 @@ def create_vehicule():
         return {'message': 'Vehicule created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/vehicule/<vehicule_id>', methods=['GET'])
 def get_vehicule(vehicule_id):
@@ -308,6 +333,7 @@ def get_vehicule(vehicule_id):
 
     else:
         return {'message': 'Vehicule not found'}, 404
+
 
 @app.route('/vehicule/<vehicule_id>', methods=['PUT'])
 def update_vehicule(vehicule_id):
@@ -334,7 +360,10 @@ def delete_vehicule(vehicule_id):
     else:
         return {'message': 'Vehicule not found'}, 404
 
+
 #############
+
+
 @app.route('/media', methods=['GET'])
 def get_all_media():
     medias = list(media_collection.find())
@@ -348,6 +377,7 @@ def get_all_media():
 
     return jsonify(media_list)
 
+
 @app.route('/media', methods=['POST'])
 def create_media():
     media_data = request.get_json()
@@ -358,6 +388,7 @@ def create_media():
         return {'message': 'Media created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/media/<media_id>', methods=['GET'])
 def get_media(media_id):
@@ -370,6 +401,7 @@ def get_media(media_id):
 
     else:
         return {'message': 'Media not found'}, 404
+
 
 @app.route('/media/<media_id>', methods=['PUT'])
 def update_media(media_id):
@@ -396,7 +428,10 @@ def delete_media(media_id):
     else:
         return {'message': 'Media not found'}, 404
 
+
 #############
+
+
 @app.route('/purchase', methods=['GET'])
 def get_all_purchase():
     purchases = list(purchase_collection.find())
@@ -410,6 +445,7 @@ def get_all_purchase():
 
     return jsonify(purchase_list)
 
+
 @app.route('/purchase', methods=['POST'])
 def create_purchase():
     purchase_data = request.get_json()
@@ -420,6 +456,7 @@ def create_purchase():
         return {'message': 'Purchase created successfully!'}
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
+
 
 @app.route('/purchase/<purchase_id>', methods=['GET'])
 def get_purchase(purchase_id):
@@ -432,6 +469,7 @@ def get_purchase(purchase_id):
 
     else:
         return {'message': 'Purchase not found'}, 404
+
 
 @app.route('/purchase/<purchase_id>', methods=['PUT'])
 def update_purchase(purchase_id):
@@ -457,6 +495,7 @@ def delete_purchase(purchase_id):
         return {'message': 'Purchase deleted successfully!'}
     else:
         return {'message': 'Purchase not found'}, 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
