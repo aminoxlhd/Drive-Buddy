@@ -8,7 +8,7 @@ import BuddyCarPage from '../pages/buddy-car-page/buddy-car';
 import MyOrderPage from '../pages/orderPage/MyOrderpage';
 import CarDetails from '../pages/CarDetails/Cardetails';
 import MyCar from '../pages/myCar/Mycar'; // Import MyCar component
-
+import LoginPage from '../pages/login-page/login'
 const sampleCar = {
   id: '1',
   imageUrl: 'path/to/carImage.jpg',
@@ -29,6 +29,7 @@ function App() {
         <Route path="/buddy-car" element={<BuddyCarPage />} />
         <Route path="/myorder" element={<MyOrderPage />} />
         <Route path="/mycar" element={<MyCar car={sampleCar} />} />
+        <Route path="/login" element={<LoginPage/>}/>
       </Routes>
     </Router>
   );

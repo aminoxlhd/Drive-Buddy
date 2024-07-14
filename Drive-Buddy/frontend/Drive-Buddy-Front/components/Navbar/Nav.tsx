@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Nav.scss';
 import defaultAvatar from '../../assets/Avatar-aissa.png';
 import logo from "../../assets/logo2.png";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
     const [user, setUser] = useState({
@@ -10,6 +11,13 @@ const Nav = () => {
         type: 'student', // 'student' or 'teacher'
         avatarUrl: '', // Set to empty to use default
     });
+
+    let navigate = useNavigate();
+    const loginRoute = () =>{
+        let path = `login`;
+        navigate(path);
+    }
+
 
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -69,7 +77,7 @@ const Nav = () => {
                             )}
                         </div>
                     ) : (
-                        <button className="primary" onClick={handleLogin}>Login</button>
+                        <button className="primary" onClick={loginRoute}>Login</button>
                     )}
                 </div>
             </nav>
