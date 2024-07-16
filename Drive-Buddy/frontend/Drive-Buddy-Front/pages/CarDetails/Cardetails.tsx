@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Cardetails.scss';
 import carBackground from '../../assets/carBackground.jpg'; // Sample image
@@ -7,6 +7,9 @@ import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import Card from '../../components/card/Card';
 import { initiatePayment } from '../../services/payment/payments'; // Import the payment function
+import { getVehicule } from '../../services/vehicule/VehiculeService'
+import { VehiculeModel } from '../../services/vehicule/Vehicule';
+
 
 const recommendedCars = [
     { id: 1, imageUrl: carBackground, category: 'Category A', rating: 4.9 },
@@ -16,20 +19,23 @@ const recommendedCars = [
 
 const CarDetails = () => {
     const { id } = useParams();
-
-    // Sample data, replace with real data fetching
-    const car = {
-        id,
+    const [car, setCar] = useState<VehiculeModel>({
+        id : 1,
         imageUrl: carBackground,
         title: 'Clio 4',
         category: 'Category B',
         rating: 4.9,
         ownerName: 'Younes Drissi',
-        ownerPhoto: 'path/to/owner.jpg',
-        countryEmoji: '🇫🇷',
         location: '23 avenue de marseille - France',
-        price: 100, // Sample price, adjust as needed
-    };
+        price: "100", // Sample price, adjust as needed
+    })
+    
+    useEffect(() => {
+        getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
+    })
+    
+
+
 
     // Function to handle PayPal payment
     const handlePayPalPayment = async () => {

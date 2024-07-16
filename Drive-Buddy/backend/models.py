@@ -47,10 +47,15 @@ class StudentSchema(Schema):
 class VehiculeSchema(Schema):
     id = fields.Str()
     teacherid = fields.Str()
+    ownerName = fields.Str()
     category = fields.Str()
     module = fields.Str()
     gearbox = fields.Str()
     price = fields.Str()
+    rating = fields.Str()
+    title = fields.Str()
+    location = fields.Str()
+    imageUrl = fields.Str()
 
 
 class MediaSchema(Schema):

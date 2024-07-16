@@ -1,14 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import "./Mycar.scss"
+import { VehiculeModel } from '../../services/vehicule/Vehicule';
+import { useParams } from 'react-router-dom';
+import { getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
 
-interface Car {
-    id: string;
-    imageUrl: string;
-    title: string;
-    category: string;
-    ownerName: string;
-    location: string;
-}
 
 interface Documents {
     drivingLicence: File | null;
@@ -17,23 +12,31 @@ interface Documents {
     carDetails: File | null;
 }
 
-interface MyCarProps {
-    car: Car;
-}
 
-const MyCar: React.FC<MyCarProps> = ({ car }) => {
-    const [carDetails, setCarDetails] = useState<Car>(car);
+
+const MyCar = () => {
+    const { id } = useParams();
+    const [car, setCar] = useState<VehiculeModel>({
+        id : 1,
+        imageUrl: '',
+        title: '',
+        category: '',
+        rating: 0,
+        ownerName: '',
+        location: '',
+        price: "", // Sample price, adjust as needed
+    })
+
+    useEffect(() => {
+        getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
+    }, [])
+
     const [documents, setDocuments] = useState<Documents>({
         drivingLicence: null,
         insurance: null,
         certification: null,
         carDetails: null,
     });
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setCarDetails({ ...carDetails, [name]: value });
-    };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, files } = e.target;
@@ -42,9 +45,14 @@ const MyCar: React.FC<MyCarProps> = ({ car }) => {
         }
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCar({ ...car, [event.target.name]: event.target.value });
+      };
+
     const handleSave = () => {
         // Handle save logic here
-        console.log('Car Details:', carDetails);
+        updateVehicule(car).then(res => {}).catch(e => console.log(e))
+        console.log('Car Details:', car);
         console.log('Documents:', documents);
     };
 
@@ -52,35 +60,39 @@ const MyCar: React.FC<MyCarProps> = ({ car }) => {
         <div className='container'>
             <div className="my-car-container">
                 <div className="car-image-section">
-                    <img src={carDetails.imageUrl} alt={carDetails.title} className="car-image" />
+                    <img src={car.imageUrl} alt={car.title} className="car-image" />
                     <div className="car-info">
                         <input
                             type="text"
                             name="title"
-                            value={carDetails.title}
-                            onChange={handleInputChange}
+                            value={car.title}
+                            onChange={handleChange}
                             className="car-input"
+                            placeholder='Car title'
                         />
                         <input
                             type="text"
                             name="category"
-                            value={carDetails.category}
-                            onChange={handleInputChange}
+                            value={car.category}
+                            onChange={handleChange}
                             className="car-input"
+                            placeholder='Car Category'
                         />
                         <input
                             type="text"
                             name="ownerName"
-                            value={carDetails.ownerName}
-                            onChange={handleInputChange}
+                            value={car.ownerName}
+                            onChange={handleChange}
                             className="car-input"
+                            placeholder='Owner Name'
                         />
                         <input
                             type="text"
                             name="location"
-                            value={carDetails.location}
-                            onChange={handleInputChange}
+                            value={car.location}
+                            onChange={handleChange}
                             className="car-input"
+                            placeholder='Location'
                         />
                         <button className="button" onClick={handleSave}>Save</button>
                     </div>

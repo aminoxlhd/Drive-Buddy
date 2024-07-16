@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './StudentSignup.scss';
 import studentImage from '../../assets/mentor.jpg';
-import { createStudent, StudentFormData } from '../../services/students/Students';
+import { createStudent, StudentFormData } from '../../services/students/students';
 
 const StudentSignup: React.FC = () => {
   const [formData, setFormData] = useState<StudentFormData>({
@@ -10,8 +10,7 @@ const StudentSignup: React.FC = () => {
     email: '',
     dateOfBirth: '',
     phoneNumber: '',
-    password: '',
-    confirmPassword: '',
+    password: ''
   });
   const [error, setError] = useState<string>('');
 
@@ -22,9 +21,6 @@ const StudentSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (formData.password !== formData.confirmPassword) {
-        throw new Error('Passwords do not match');
-      }
 
       const response = await createStudent({
         firstName: formData.firstName,
@@ -99,14 +95,6 @@ const StudentSignup: React.FC = () => {
               name="password"
               placeholder="Password"
               value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
               onChange={handleChange}
               required
             />

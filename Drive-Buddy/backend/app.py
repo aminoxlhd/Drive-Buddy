@@ -7,6 +7,8 @@ from pymongo import MongoClient
 from flask import Flask, request, jsonify
 from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
     PurchaseSchema
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Fvx5pWKDaR20YcA1l30"
@@ -14,6 +16,7 @@ app.config['JWT_SECURITY_KEY'] = "Fvx5pWKDaR20YcA1l30"
 app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_HEADER_NAME'] = 'Authorization'
 app.config['JWT_HEADER_TYPE'] = 'Bearer'
+CORS(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
@@ -312,10 +315,10 @@ def delete_teacher(teacher_id):
 
 
 @app.route('/vehicule', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def get_all_vehicule():
-    username = get_jwt_identity()
-    print(username)
+    #username = get_jwt_identity()
+    #print(username)
     vehicules = list(vehicule_collection.find())
     vehicule_list = []
     vehicule_schema = VehiculeSchema()
