@@ -1,8 +1,8 @@
-import { LoginData, ResponseData } from './auth.interface';
+import { LoginData } from './auth.interface';
 
 const BASE_URL = 'http://localhost:5000/login';
 
-export const loginUser = async (data: LoginData): Promise<ResponseData> => {
+export const loginUser = async (data: LoginData): Promise<any> => {
     const response = await fetch(BASE_URL, {
         method: 'POST',
         headers: {
@@ -16,5 +16,5 @@ export const loginUser = async (data: LoginData): Promise<ResponseData> => {
         throw new Error('Login failed: ' + errorData.message);
     }
 
-    return response.json();
+    return response.json(); // Return parsed JSON response
 };

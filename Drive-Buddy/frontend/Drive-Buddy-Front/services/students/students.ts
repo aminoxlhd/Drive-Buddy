@@ -1,20 +1,21 @@
-import { StudentSignupData, ResponseData } from './Student';
+// students/Students.ts
 
-const BASE_URL = 'http://localhost:5000/student';
+import axios from 'axios';
 
-export const createStudent = async (data: StudentSignupData): Promise<ResponseData> => {
-    const response = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+export interface StudentFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  dateOfBirth: string;
+  phoneNumber: string;
+  password: string;
+}
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error('Signup failed: ' + errorData.message);
-    }
-
-    return response.json();
-};
+export async function createStudent(formData: StudentFormData): Promise<any> {
+  try {
+    const response = await axios.post('http://localhost:5000/api/signup/student', formData);
+    return response.data; // Assuming backend returns some data on successful signup
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to sign up student');
+  }
+}

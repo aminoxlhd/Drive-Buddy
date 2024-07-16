@@ -6,6 +6,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './CategoriesSection.scss';
 import Card from '../card/Card';
+import { useNavigate } from 'react-router-dom';
 
 import carImage from '../../assets/clio4.png';
 import ghazalaImagePng from '../../assets/ghazala.png';
@@ -34,32 +35,40 @@ const categories = [
     }
 ];
 
-const CategoriesSection: React.FC = () => (
-    <div className="categories-section">
-        <div>
-            <h2 className="section-title">Explore Our Categories</h2>
-        </div>
-        <div className='categories-container'>
-            <Swiper
-                modules={[Navigation, Pagination]}
-                slidesPerView={2}
-                spaceBetween={16}
-                pagination={{ clickable: true }}
-                navigation
-            >
-                {categories.map((category, index) => (
-                    <SwiperSlide key={index}>
-                        <Card
-                            image={category.image}
-                            categoryType={category.categoryType}
-                            price={category.price}
-                        />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
+const CategoriesSection: React.FC = () => {
+    const navigate = useNavigate();
 
-    </div>
-);
+    const handleCardClick = (categoryType: string) => {
+        navigate(`/category/${categoryType}`);
+    };
+
+    return (
+        <div className="categories-section">
+            <div>
+                <h2 className="section-title">Explore Our Categories</h2>
+            </div>
+            <div className='categories-container'>
+                <Swiper
+                    modules={[Navigation, Pagination]}
+                    slidesPerView={2}
+                    spaceBetween={16}
+                    pagination={{ clickable: true }}
+                    navigation
+                >
+                    {categories.map((category, index) => (
+                        <SwiperSlide key={index}>
+                            <Card
+                                image={category.image}
+                                categoryType={category.categoryType}
+                                price={category.price}
+                                onClick={() => handleCardClick(category.categoryType)} // Pass the click handler
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+        </div>
+    );
+};
 
 export default CategoriesSection;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './StudentSignup.scss';
 import studentImage from '../../assets/mentor.jpg';
@@ -11,9 +10,10 @@ const StudentSignup: React.FC = () => {
     email: '',
     dateOfBirth: '',
     phoneNumber: '',
-    password: '', // New state for password
-    confirmPassword: '', // New state for password confirmation
+    password: '',
+    confirmPassword: '',
   });
+  const [error, setError] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,8 +41,7 @@ const StudentSignup: React.FC = () => {
       // history.push(`/profile/setup/${response.id}`);
 
     } catch (error) {
-      console.error('Failed to sign up student:', error.message);
-      // Handle error (e.g., show error message)
+      setError(error.message);
     }
   };
 
@@ -52,6 +51,7 @@ const StudentSignup: React.FC = () => {
         <div className="signup-form">
           <h2>Student Sign Up</h2>
           <form onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
             <div className="name-container">
               <input
                 type="text"

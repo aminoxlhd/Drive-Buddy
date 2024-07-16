@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Login.scss';
+import { loginUser } from '../../services/auth/auth'; // Import loginUser function
 
-const Login = ({ setUser }) => {
+interface Props {
+    setUser: React.Dispatch<React.SetStateAction<{
+        isLoggedIn: boolean;
+        type: string;
+        avatarUrl: string;
+    }>>;
+}
+
+const Login: React.FC<Props> = ({ setUser }) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [userType, setUserType] = useState<'student' | 'teacher'>('student'); // Default to 'student'
     const [error, setError] = useState('');
 
     const handleLogin = async () => {
         console.log('Login button clicked'); // Log when button is clicked
         try {
-            const response = await axios.post('http://127.0.0.1:5000/login', { email, password });
-            console.log('API Response:', response); // Log the API response
+            const data = { email, password, type: userType };
+            const response = await loginUser(data); // Call loginUser function
 
-            if (response.status === 200) {
-                setUser({
-                    isLoggedIn: true,
-                    type: response.data.type, // Assuming the response contains the user type
-                    avatarUrl: response.data.avatarUrl || 'path/to/default-avatar.jpg',
-                });
-                navigate('/');
-            } else {
-                setError('Login failed. Please check your credentials and try again.');
-            }
+            // Handle successful login response
+            setUser({
+                isLoggedIn: true,
+                type: response.type, // Assuming the response contains the user type
+                avatarUrl: response.avatarUrl || 'assets/default-avatar.jpg',
+            });
+            navigate('/'); // Navigate to home page after successful login
+
         } catch (err) {
             console.error('Login error:', err); // Log any errors
             setError('Login failed. Please check your credentials and try again.');
@@ -52,9 +59,16 @@ const Login = ({ setUser }) => {
                         placeholder="Password"
                     />
                 </div>
-                <div className="remember-me">
-                    <input type="checkbox" id="rememberMe" />
-                    <label htmlFor="rememberMe">Remember me</label>
+                <div>
+                    <label htmlFor="userType">User Type:</label>
+                    <select
+                        id="userType"
+                        value={userType}
+                        onChange={(e) => setUserType(e.target.value as 'student' | 'teacher')}
+                    >
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
                 </div>
                 <button onClick={handleLogin}>Login</button>
             </div>
