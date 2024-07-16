@@ -4,12 +4,18 @@ import './Nav.scss';
 import defaultAvatar from '../../assets/Avatar-aissa.png';
 
 const Nav = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Declare navigate once
+
     const [user, setUser] = useState({
         isLoggedIn: false,
         type: 'student', // 'student' or 'teacher'
         avatarUrl: '', // Set to empty to use default
     });
+
+    const loginRoute = () => {
+        let path = `login`;
+        navigate(path);
+    }
 
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -67,7 +73,7 @@ const Nav = () => {
                             )}
                         </div>
                     ) : (
-                        <button className="primary" onClick={handleLogin}>Login</button>
+                        <button className="primary" onClick={loginRoute}>Login</button>
                     )}
                 </div>
             </nav>

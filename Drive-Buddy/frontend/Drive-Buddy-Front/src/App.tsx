@@ -15,6 +15,7 @@ import Category from '../pages/Category/Category';
 import Login from '../pages/Login/Login';
 import StudentSignup from '../pages/Signup/StudentSignup';
 
+
 const sampleCar = {
   id: '1',
   imageUrl: 'path/to/carImage.jpg',
