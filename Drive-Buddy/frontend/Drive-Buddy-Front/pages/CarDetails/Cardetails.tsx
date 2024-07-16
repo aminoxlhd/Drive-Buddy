@@ -85,6 +85,7 @@ const CarDetails = () => {
                         <input type="date" placeholder="Date" />
                         <input type="text" placeholder="Address" />
                         <input type="time" placeholder="Time" />
+                        <button className="paypal-button" onClick={handlePayPalPayment}>Order</button>
                         <button className="paypal-button" onClick={handlePayPalPayment}>PayPal</button>
                         <button className="credit-card-button" onClick={handleCreditCardPayment}>Debit or Credit Card</button>
                     </div>
