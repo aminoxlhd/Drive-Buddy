@@ -7,7 +7,13 @@ import ExplorePage from '../pages/explore-page/explore-page';
 import BuddyCarPage from '../pages/buddy-car-page/buddy-car';
 import MyOrderPage from '../pages/orderPage/MyOrderpage';
 import CarDetails from '../pages/CarDetails/Cardetails';
-import MyCar from '../pages/myCar/Mycar'; // Import MyCar component
+import MyCar from '../pages/myCar/Mycar';
+import TeacherSignup from '../pages/Signup/TeacherSignup';
+import Prices from '../pages/Prices/Prices';
+import ContactUs from '../pages/ContactUs/ContactUs';
+import Category from '../pages/Category/Category';
+import Login from '../pages/Login/Login';
+import StudentSignup from '../pages/Signup/StudentSignup';
 
 const sampleCar = {
   id: '1',
@@ -29,6 +35,12 @@ function App() {
         <Route path="/buddy-car" element={<BuddyCarPage />} />
         <Route path="/myorder" element={<MyOrderPage />} />
         <Route path="/mycar" element={<MyCar car={sampleCar} />} />
+        <Route path="/become-a-teacher" element={<TeacherSignup />} />
+        <Route path="/prices" element={<Prices />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/category" element={<Category />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/StudentSignup" element={<StudentSignup />} />
       </Routes>
     </Router>
   );

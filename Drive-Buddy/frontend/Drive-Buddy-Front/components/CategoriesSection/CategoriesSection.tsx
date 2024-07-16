@@ -7,7 +7,6 @@ import 'swiper/css/pagination';
 import './CategoriesSection.scss';
 import Card from '../card/Card';
 
-// Import images
 import carImage from '../../assets/clio4.png';
 import ghazalaImagePng from '../../assets/ghazala.png';
 import ghazalaImageJpg from '../../assets/ghazala.png';

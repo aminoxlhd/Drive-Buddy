@@ -1,44 +1,20 @@
-import axios from 'axios';
-import { IStudent } from './students.interface'
+import { StudentSignupData, ResponseData } from './Student';
 
-const BASE_URL = "process.env.REACT_APP_API_URL";
+const BASE_URL = 'http://localhost:5000/student';
 
-// Get student by ID
-export const getStudentById = async (id: string): Promise<IStudent> => {
-  try {
-    const response = await axios.get<IStudent>(`${BASE_URL}/students/${id}`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching student');
-  }
-};
+export const createStudent = async (data: StudentSignupData): Promise<ResponseData> => {
+    const response = await fetch(BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
 
-// Get all students
-export const getAllStudents = async (): Promise<IStudent[]> => {
-  try {
-    const response = await axios.get<IStudent[]>(`${BASE_URL}/students`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching students');
-  }
-};
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error('Signup failed: ' + errorData.message);
+    }
 
-// Create a new student
-export const createStudent = async (student: IStudent): Promise<IStudent> => {
-  try {
-    const response = await axios.post<IStudent>(`${BASE_URL}/students`, student);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error creating student');
-  }
-};
-
-// Edit an existing student
-export const editStudent = async (id: string, student: IStudent): Promise<IStudent> => {
-  try {
-    const response = await axios.put<IStudent>(`${BASE_URL}/students/${id}`, student);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error editing student');
-  }
+    return response.json();
 };

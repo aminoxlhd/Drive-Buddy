@@ -1,10 +1,9 @@
-export interface IUser {
-  id: string;
-  firstName: string;
-  lastName: string;
-  userType: string;
-  dateOfBirth: Date;
+export interface LoginData {
   email: string;
-  phoneNumber: string;
-  media: string;
+  password: string;
+}
+
+export interface ResponseData {
+  message: string;
+  token?: string;
 }

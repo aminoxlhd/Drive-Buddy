@@ -1,41 +1,20 @@
-import axios from "axios";
-import { IUser } from "./auth.interface";
+import { LoginData, ResponseData } from './auth.interface';
 
-const BASE_URL = "process.env.REACT_APP_API_URL";
+const BASE_URL = 'http://localhost:5000/login';
 
+export const loginUser = async (data: LoginData): Promise<ResponseData> => {
+    const response = await fetch(BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
 
-export const getUserById = async (id: string): Promise<IUser> => {
-  try {
-    const response = await axios.get<IUser>(`${BASE_URL}users/${id}`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message || 'Error fetching user');
-  }
-};
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error('Login failed: ' + errorData.message);
+    }
 
-export const getAllUsers = async (): Promise<IUser[]> => {
-  try {
-    const response = await axios.get<IUser[]>(`${BASE_URL}/users`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message || 'Error fetching users');
-  }
-};
-
-export const createUser = async (user: IUser): Promise<IUser> => {
-  try {
-    const response = await axios.post<IUser>(`${BASE_URL}/users`, user);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message || 'Error creating user');
-  }
-};
-
-export const editUser = async (id: string, user: IUser): Promise<IUser> => {
-  try {
-    const response = await axios.put<IUser>(`${BASE_URL}/users/${id}`, user);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message || 'Error editing user');
-  }
+    return response.json();
 };

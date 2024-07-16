@@ -1,1 +1,4 @@
-API_URL = 'http://localhost:3000/api/v1/';
+export const environmentDev = {
+    production: false,
+    apiUrl: 'http://localhost:5000/api',
+  };  

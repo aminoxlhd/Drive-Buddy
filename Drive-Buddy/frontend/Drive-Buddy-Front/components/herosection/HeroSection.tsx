@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import carImage from '../../assets/carImage.png';
-
+import './HeroSection.scss';
 
 const HeroSection: React.FC = () => (
     <div className="hero">
@@ -11,8 +11,8 @@ const HeroSection: React.FC = () => (
             money-back guarantee, all with just a few clicks. Skip the stress, book with us today!
         </p>
         <div className="button-container">
-            <button className="button secondary">Your Driver Buddy</button>
-            <Link to="/become-a-driver" className="text-link">Become a Driver Buddy</Link>
+            <Link to="StudentSignup" className="button primary">Start you'r adventure</Link>
+            <Link to="/become-a-teacher" className="text-link">Become a Driver Buddy</Link>
         </div>
         <div className="car-image">
             <div className='background-car'></div>

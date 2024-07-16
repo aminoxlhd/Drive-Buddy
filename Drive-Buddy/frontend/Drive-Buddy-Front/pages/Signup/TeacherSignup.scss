@@ -1,0 +1,62 @@
+.teacher-signup-container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.left-content {
+  flex: 1; /* Take up left side */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #fafafa; /* Light background color */
+}
+
+.name-container {
+  display: flex;
+  gap: 1rem; /* Space between first name and last name */
+  margin-bottom: 1rem; /* Margin between name fields and other inputs */
+}
+
+.left-content .signup-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.left-content .signup-form form input,
+.left-content .signup-form form button {
+  margin-bottom: 1rem; /* Margin between each input field and button */
+  padding: 0.8rem; /* Increased padding for input fields */
+  font-size: 1rem; /* Font size for input fields */
+  border: 1px solid #ccc; /* Border for input fields */
+  border-radius: 4px; /* Border radius for input fields */
+}
+
+.left-content .signup-form form input[type="file"] {
+  padding: 0.5rem; /* Adjust padding for file input */
+}
+
+.left-content .signup-form form label {
+  margin-top: 0.5rem; /* Margin between checkbox label and previous input */
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem; /* Font size for checkbox label */
+}
+
+.left-content .signup-form form button {
+  background-color: black; /* Black background color for the button */
+  color: white; /* White text color */
+  border: none; /* No border */
+  transition: background-color 0.3s; /* Smooth transition for background color change */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.left-content .signup-form form button:hover {
+  background-color: #45ce45; /* Green background color on hover */
+}
+
+.right-content {
+  flex: 1; /* Take up right side */
+  background-size: cover;
+  background-position: center;
+}

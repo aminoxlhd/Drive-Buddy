@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Nav.scss';
 import defaultAvatar from '../../assets/Avatar-aissa.png';
-import logo from "../../assets/logo2.png";
 
 const Nav = () => {
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         isLoggedIn: false,
         type: 'student', // 'student' or 'teacher'
@@ -14,11 +14,8 @@ const Nav = () => {
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
     const handleLogin = () => {
-        setUser({
-            isLoggedIn: true,
-            type: 'teacher',
-            avatarUrl: 'path/to/new-avatar.jpg',
-        });
+        // Navigate to the login page
+        navigate('/login');
     };
 
     const toggleDropdown = () => {
@@ -31,14 +28,15 @@ const Nav = () => {
             type: '',
             avatarUrl: '',
         });
+        // Navigate back to the home page after logging out
+        navigate('/');
     };
-
 
     return (
         <div className="container">
             <nav>
                 <div className="nav-logo">
-                    <Link to="/">  Driver<span>B.</span></Link>
+                    <Link to="/">Driver<span>B.</span></Link>
                 </div>
                 <div className="nav-links">
                     {user.isLoggedIn ? (
@@ -52,7 +50,7 @@ const Nav = () => {
                             <Link to="/">Home</Link>
                             <Link to="/category">Category</Link>
                             <Link to="/prices">Prices</Link>
-                            <Link to="/contact">Contact Us</Link>
+                            <Link to="/contactus">Contact Us</Link>
                         </>
                     )}
                 </div>

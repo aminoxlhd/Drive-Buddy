@@ -1,63 +1,121 @@
+
 import React, { useState } from 'react';
 import './StudentSignup.scss';
+import studentImage from '../../assets/mentor.jpg';
+import { createStudent, StudentFormData } from '../../services/students/Students';
 
 const StudentSignup: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<StudentFormData>({
     firstName: '',
     lastName: '',
     email: '',
     dateOfBirth: '',
     phoneNumber: '',
+    password: '', // New state for password
+    confirmPassword: '', // New state for password confirmation
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    try {
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+
+      const response = await createStudent({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        dateOfBirth: formData.dateOfBirth,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+      });
+
+      console.log('Student signed up successfully:', response);
+
+      // Redirect to profile setup page or handle accordingly
+      // history.push(`/profile/setup/${response.id}`);
+
+    } catch (error) {
+      console.error('Failed to sign up student:', error.message);
+      // Handle error (e.g., show error message)
+    }
   };
 
   return (
-    <form className="student-signup-form" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="firstName"
-        placeholder="First Name"
-        value={formData.firstName}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="lastName"
-        placeholder="Last Name"
-        value={formData.lastName}
-        onChange={handleChange}
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-      />
-      <input
-        type="date"
-        name="dateOfBirth"
-        placeholder="Date of Birth"
-        value={formData.dateOfBirth}
-        onChange={handleChange}
-      />
-      <input
-        type="tel"
-        name="phoneNumber"
-        placeholder="Phone Number"
-        value={formData.phoneNumber}
-        onChange={handleChange}
-      />
-      <button type="submit">Sign Up</button>
-    </form>
+    <div className="student-signup-container">
+      <div className="left-content">
+        <div className="signup-form">
+          <h2>Student Sign Up</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="name-container">
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="date"
+              name="dateOfBirth"
+              placeholder="Date of Birth"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="tel"
+              name="phoneNumber"
+              placeholder="Phone Number"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
+      <div className="right-content" style={{ backgroundImage: `url(${studentImage})` }} />
+    </div>
   );
 };
 

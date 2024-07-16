@@ -1,0 +1,45 @@
+/* Prices.scss */
+
+.prices-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.price-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.price-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.price-card:hover {
+    transform: translateY(-10px); /* Example animation on hover */
+}
+
+.category-image {
+    width: 100%; /* Adjust size of category image */
+    max-height: 300px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.category {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.price {
+    color: #333;
+}
