@@ -16,6 +16,7 @@ import Login from '../pages/Login/Login';
 import StudentSignup from '../pages/Signup/StudentSignup';
 import Profile from '../pages/profiles/Profile';
 import Settings from '../pages/settings/Settings';
+import useToken from '../components/auth/useToken'
 
 const sampleCar = {
   id: '1',
@@ -27,6 +28,7 @@ const sampleCar = {
 };
 
 function App() {
+
   return (
     <Router>
       <Nav />
@@ -36,7 +38,7 @@ function App() {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/buddy-car" element={<BuddyCarPage />} />
         <Route path="/myorder" element={<MyOrderPage />} />
-        <Route path="/mycar" element={<MyCar />} />
+        <Route path="/mycar/:id" element={<MyCar />} />
         <Route path="/become-a-teacher" element={<TeacherSignup />} />
         <Route path="/prices" element={<Prices />} />
         <Route path="/contactus" element={<ContactUs />} />

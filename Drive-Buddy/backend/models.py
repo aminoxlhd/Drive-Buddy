@@ -66,8 +66,11 @@ class MediaSchema(Schema):
 
 class PurchaseSchema(Schema):
     id = fields.Str()
-    studentid = fields.Str()
-    teacherid = fields.Str()
-    cateegory = fields.Str()
+    studentId = fields.Str()
+    teacherId = fields.Str()
+    vehiculeId = fields.Str()
+    category = fields.Str()
     price = fields.Str()
     date = fields.Str()
+    createdAt = fields.Str()
+    address = fields.Str()

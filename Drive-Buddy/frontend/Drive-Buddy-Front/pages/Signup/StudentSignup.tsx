@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './StudentSignup.scss';
 import studentImage from '../../assets/mentor.jpg';
-import { createStudent, StudentFormData } from '../../services/students/Students';
+import { createStudent, StudentFormData } from '../../services/students/students';
 import { useNavigate } from 'react-router-dom';
 
 const StudentSignup: React.FC = () => {

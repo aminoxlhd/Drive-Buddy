@@ -3,31 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import { loginUser } from '../../services/auth/auth'; // Import loginUser function
 
-interface Props {
-    setUser: React.Dispatch<React.SetStateAction<{
-        isLoggedIn: boolean;
-        type: string;
-        avatarUrl: string;
-    }>>;
-}
 
-const Login: React.FC<Props> = ({ setUser }) => {
+
+const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userType, setUserType] = useState<'student' | 'teacher'>('student'); // Default to 'student'
     const [error, setError] = useState('');
+    const [user, setUser] = useState({
+        isLoggedIn: true,
+        type: 'student', // 'student' or 'teacher'
+        avatarUrl: 'path/to/avatar.jpg',
+    });
 
     const handleLogin = async () => {
         console.log('Login button clicked'); // Log when button is clicked
         try {
             const data = { email, password, type: userType };
             const response = await loginUser(data); // Call loginUser function
-
+            localStorage.setItem('token', response.access_token);
             // Handle successful login response
             setUser({
                 isLoggedIn: true,
-                type: response.type, // Assuming the response contains the user type
+                type: userType,
                 avatarUrl: response.avatarUrl || 'assets/default-avatar.jpg',
             });
             navigate('/'); // Navigate to home page after successful login

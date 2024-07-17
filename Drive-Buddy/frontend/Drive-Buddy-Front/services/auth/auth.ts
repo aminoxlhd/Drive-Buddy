@@ -16,5 +16,9 @@ export const loginUser = async (data: LoginData): Promise<any> => {
         throw new Error('Login failed: ' + errorData.message);
     }
 
-    return response.json(); // Return parsed JSON response
+    let responseJson = response.json();
+    return responseJson;
 };
+
+
+

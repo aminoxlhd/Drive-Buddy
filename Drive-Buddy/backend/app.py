@@ -491,6 +491,18 @@ def get_purchase(purchase_id):
     else:
         return {'message': 'Purchase not found'}, 404
 
+@app.route('/purchase_user/<user_id>', methods=['GET'])
+def get_purchase_by_user(user_id):
+    purchase = purchase_collection.find({"studentId": user_id})
+
+    if purchase:
+        purchase_schema = PurchaseSchema(many=True)
+        purchase_dict = purchase_schema.dump(purchase)
+        return purchase_dict
+
+    else:
+        return {'message': 'Purchase not found'}, 404
+
 
 @app.route('/purchase/<purchase_id>', methods=['PUT'])
 def update_purchase(purchase_id):

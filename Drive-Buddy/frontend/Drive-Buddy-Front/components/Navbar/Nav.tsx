@@ -51,7 +51,7 @@ const Nav = () => {
                     {user.isLoggedIn ? (
                         <>
                             <Link to="/myorder">My Orders</Link>
-                            <Link to="/explore">Explore</Link>
+                            <Link to="/category">Category</Link>
                             {user.type === 'teacher' && <Link to="/mycar">My Cars</Link>}
                         </>
                     ) : (
