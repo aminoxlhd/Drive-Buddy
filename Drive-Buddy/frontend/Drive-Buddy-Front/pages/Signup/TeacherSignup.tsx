@@ -1,6 +1,8 @@
+// src/pages/TeacherSignup.tsx
 import React, { useState } from 'react';
 import './TeacherSignup.scss';
 import teacherImage from '../../assets/teacherbuddy.jpg'; // Update the image path if needed
+import { useNavigate } from 'react-router-dom';
 
 const TeacherSignup: React.FC = () => {
     const [step, setStep] = useState(1);
@@ -16,6 +18,7 @@ const TeacherSignup: React.FC = () => {
         driverLicense: null as File | null,
         acceptConditions: false,
     });
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -53,6 +56,7 @@ const TeacherSignup: React.FC = () => {
             if (response.ok) {
                 // Handle successful signup (e.g., show success message, redirect, etc.)
                 console.log('Signup successful!');
+                navigate('/teacherprofile'); // Redirect to teacher profile page
             } else {
                 // Handle errors (e.g., show error message)
                 console.error('Signup failed:', response.statusText);

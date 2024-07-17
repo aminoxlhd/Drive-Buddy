@@ -1,7 +1,9 @@
+// src/pages/StudentSignup.tsx
 import React, { useState } from 'react';
 import './StudentSignup.scss';
 import studentImage from '../../assets/mentor.jpg';
-import { createStudent, StudentFormData } from '../../services/students/students';
+import { createStudent, StudentFormData } from '../../services/students/Students';
+import { useNavigate } from 'react-router-dom';
 
 const StudentSignup: React.FC = () => {
   const [formData, setFormData] = useState<StudentFormData>({
@@ -13,6 +15,7 @@ const StudentSignup: React.FC = () => {
     password: ''
   });
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +24,6 @@ const StudentSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-
       const response = await createStudent({
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -32,9 +34,7 @@ const StudentSignup: React.FC = () => {
       });
 
       console.log('Student signed up successfully:', response);
-
-      // Redirect to profile setup page or handle accordingly
-      // history.push(`/profile/setup/${response.id}`);
+      navigate('/studentprofile'); // Redirect to student profile page
 
     } catch (error) {
       setError(error.message);

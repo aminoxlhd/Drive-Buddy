@@ -4,25 +4,19 @@ import './Nav.scss';
 import defaultAvatar from '../../assets/Avatar-aissa.png';
 
 const Nav = () => {
-    const navigate = useNavigate(); // Declare navigate once
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
-        isLoggedIn: false,
-        type: 'student', // 'student' or 'teacher'
+        isLoggedIn: true,
+        type: 'teacher', // 'student' or 'teacher'
         avatarUrl: '', // Set to empty to use default
     });
 
     const loginRoute = () => {
-        let path = `login`;
-        navigate(path);
+        navigate('/login');
     }
 
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-    const handleLogin = () => {
-        // Navigate to the login page
-        navigate('/login');
-    };
 
     const toggleDropdown = () => {
         setIsDropdownVisible(!isDropdownVisible);
@@ -34,8 +28,17 @@ const Nav = () => {
             type: '',
             avatarUrl: '',
         });
-        // Navigate back to the home page after logging out
         navigate('/');
+    };
+
+    const goToProfile = () => {
+        navigate('/Profile');
+        setIsDropdownVisible(false); // Close dropdown after navigation
+    };
+
+    const goToSettings = () => {
+        navigate('/Settings');
+        setIsDropdownVisible(false); // Close dropdown after navigation
     };
 
     return (
@@ -47,9 +50,9 @@ const Nav = () => {
                 <div className="nav-links">
                     {user.isLoggedIn ? (
                         <>
-                            <Link to="/myorder">My Order</Link>
-                            {user.type === 'student' && <Link to="/explore">Explore</Link>}
-                            {user.type === 'teacher' && <Link to="/mycar">My Car</Link>}
+                            <Link to="/myorder">My Orders</Link>
+                            <Link to="/explore">Explore</Link>
+                            {user.type === 'teacher' && <Link to="/mycar">My Cars</Link>}
                         </>
                     ) : (
                         <>
@@ -68,6 +71,8 @@ const Nav = () => {
                             </div>
                             {isDropdownVisible && (
                                 <div className="dropdown-menu">
+                                    <button onClick={goToProfile}>Profile</button>
+                                    <button onClick={goToSettings}>Settings</button>
                                     <button onClick={handleLogout}>Logout</button>
                                 </div>
                             )}

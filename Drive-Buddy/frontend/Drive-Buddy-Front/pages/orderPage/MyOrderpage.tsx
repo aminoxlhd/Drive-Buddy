@@ -1,5 +1,4 @@
-// src/pages/my-order-page/MyOrderPage.js
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTable } from 'react-table';
 import './OrderPage.scss';
 
@@ -10,11 +9,10 @@ const MyOrderPage = () => {
         avatarUrl: 'path/to/avatar.jpg',
     });
 
-    const handleLogin = () => {
+    const handleToggleView = () => {
         setUser({
-            isLoggedIn: true,
+            ...user,
             type: user.type === 'student' ? 'teacher' : 'student',
-            avatarUrl: user.type === 'student' ? 'path/to/new-avatar.jpg' : 'path/to/avatar.jpg',
         });
     };
 
@@ -30,7 +28,7 @@ const MyOrderPage = () => {
         // Add more order objects as needed
     ];
 
-    const columns = React.useMemo(() => {
+    const columns = useMemo(() => {
         const baseColumns = [
             { Header: 'ID', accessor: 'id' },
             { Header: 'Date of Driving', accessor: 'date' },
@@ -49,7 +47,7 @@ const MyOrderPage = () => {
         return baseColumns;
     }, [user.type]);
 
-    const data = React.useMemo(() => orders, [orders]);
+    const data = useMemo(() => orders, [orders]);
 
     const {
         getTableProps,
@@ -63,9 +61,9 @@ const MyOrderPage = () => {
         <div className="container">
             <div className="my-order-page">
                 <h1>My Orders</h1>
-                <button onClick={handleLogin}>
+                {/* <button onClick={handleToggleView}>
                     {user.type === 'student' ? 'Switch to Teacher View' : 'Switch to Student View'}
-                </button>
+                </button> */}
                 <table {...getTableProps()} className="orders-table">
                     <thead>
                         {headerGroups.map(headerGroup => (
@@ -91,7 +89,6 @@ const MyOrderPage = () => {
                 </table>
             </div>
         </div>
-
     );
 };
 

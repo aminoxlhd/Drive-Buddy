@@ -4,6 +4,15 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:5000'; // Adjust according to your API URL
 
+export interface IPayment {
+    id: string;
+    studentId: string;
+    teacherId: string;
+    category: string;
+    price: number;
+    date: Date;
+}  
+
 export const initiatePayment = async (paymentData: IPayment): Promise<boolean> => {
     try {
         const response = await axios.post(`${API_BASE_URL}/payments/initiate`, paymentData);
