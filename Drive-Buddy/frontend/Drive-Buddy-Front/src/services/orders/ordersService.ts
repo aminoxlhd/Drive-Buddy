@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { OrderModel } from './orders'
 
-const BASE_URL = "process.env.REACT_APP_API_URL";
+const BASE_URL = "http://localhost:5000";
 
 
 // Get order by ID
@@ -14,12 +14,18 @@ export const getOrderById = async (id: string | undefined): Promise<OrderModel> 
   }
 };
 
-export const getOrderByUserId = async (id : string | undefined): Promise<OrderModel> => {
-  const response = await fetch(`${BASE_URL}/purchase_user/${id}`, {
-      method: 'GET',
-      
+export const getOrderByUserId = async (): Promise<OrderModel> => {
+  let token = localStorage.getItem('token')
+
+  const response = await axios.get(`${BASE_URL}/purchase_user`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }, 
+    withCredentials : true
   });
-  return response.json();
+
+  let responseJson = await response.data
+  return responseJson;
 }
 
 
@@ -34,10 +40,20 @@ export const getAllOrders = async (): Promise<OrderModel[]> => {
 };
 
 // Create a new order
-export const createOrder = async (order: IOrder): Promise<IOrder> => {
+export const createOrder = async (order: OrderModel): Promise<boolean> => {
   try {
-    const response = await axios.post<IOrder>(`${BASE_URL}/orders`, order);
-    return response.data;
+    let token = localStorage.getItem('token')
+    const response = await axios.post(`${BASE_URL}/purchase`, 
+      order,
+      {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }, 
+        withCredentials : true
+      }
+    );
+    const responseOk = response.status == 200
+    return responseOk
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error creating order');
   }

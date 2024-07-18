@@ -3,7 +3,7 @@ export interface OrderModel {
     studentId: string;
     teacherId: string;
     vehiculeId : string;
-    vehiculeCategory : string;
+    category : string;
     price: string;
     address: string;
     date: string;

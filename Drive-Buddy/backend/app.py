@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import jwt_required, JWTManager, create_access_token, get_jwt_identity
 from pymongo import MongoClient
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
     PurchaseSchema
 from flask_cors import CORS
 
+FRONT_END_URL = 'http://localhost:5173'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Fvx5pWKDaR20YcA1l30"
@@ -17,6 +18,8 @@ app.config['JWT_TOKEN_LOCATION'] = ['headers']
 app.config['JWT_HEADER_NAME'] = 'Authorization'
 app.config['JWT_HEADER_TYPE'] = 'Bearer'
 CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
@@ -213,6 +216,42 @@ def get_student(student_id):
     else:
         return {'message': 'Student not found'}, 404
 
+
+@app.route('/current_student', methods=['GET'])
+@jwt_required()
+def get_current_student():
+    student_id = get_jwt_identity()
+    student = student_collection.find_one({"id": student_id})
+
+    if student:
+        student_schema = StudentSchema()
+        student_dict = student_schema.dump(student)
+        response = make_response(student_dict)
+        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
+    else:
+        return {'message': 'Student not found'}, 404
+
+
+@app.route('/current_student', methods=['PUT'])
+@jwt_required()
+def update_current_student():
+    student_data = request.get_json()
+    student_id = get_jwt_identity()
+    student_schema = StudentSchema()
+    try:
+        validated_data = student_schema.load(student_data)
+        student_category = student_collection.find_one_and_update(
+            {"id": student_id}, {"$set": validated_data})
+        if student_category:
+            return {'message': 'Student updated successfully!'}
+        else:
+            return {'message': 'Student not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
 
 @app.route('/student/<student_id>', methods=['PUT'])
 def update_student(student_id):
@@ -468,13 +507,21 @@ def get_all_purchase():
 
 
 @app.route('/purchase', methods=['POST'])
+@jwt_required()
 def create_purchase():
+    user_id = get_jwt_identity()
+    print(user_id)
     purchase_data = request.get_json()
     purchase_schema = PurchaseSchema()
     try:
         purchase_data = purchase_schema.load(purchase_data)
         purchase_collection.insert_one(purchase_data)
-        return {'message': 'Purchase created successfully!'}
+        response = make_response( {'message': 'Purchase created successfully!'})
+        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
 
@@ -491,14 +538,23 @@ def get_purchase(purchase_id):
     else:
         return {'message': 'Purchase not found'}, 404
 
-@app.route('/purchase_user/<user_id>', methods=['GET'])
-def get_purchase_by_user(user_id):
+@app.route('/purchase_user', methods=['GET'])
+@jwt_required()
+def get_purchase_by_user():
+    user_id = get_jwt_identity()
+    print(user_id)
     purchase = purchase_collection.find({"studentId": user_id})
 
     if purchase:
         purchase_schema = PurchaseSchema(many=True)
         purchase_dict = purchase_schema.dump(purchase)
-        return purchase_dict
+        response = make_response(purchase_dict)
+        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
+        #return purchase_dict
 
     else:
         return {'message': 'Purchase not found'}, 404

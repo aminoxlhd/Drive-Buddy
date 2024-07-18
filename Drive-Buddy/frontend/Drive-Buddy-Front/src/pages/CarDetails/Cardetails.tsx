@@ -9,6 +9,7 @@ import Card from '../../components/card/Card';
 import { initiatePayment } from '../../services/payment/payments'; // Import the payment function
 import { getVehicule } from '../../services/vehicule/VehiculeService'
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
+import { createOrder } from '../../services/orders/ordersService';
 
 
 const recommendedCars = [
@@ -32,9 +33,32 @@ const CarDetails = () => {
     
     useEffect(() => {
         getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
-    })
+    }, [])
     
 
+
+    const handlePurchase = async () => {
+        createOrder({
+            id : '6',
+            studentId : '3',
+            teacherId : '1', 
+            vehiculeId : car.id.toString(),
+            category : car.category,
+            price : car.price,
+            address : car.location,
+            date : '01-07-2024',
+            createdAt : new Date().toDateString()
+
+        }).then((created) => {
+            if(created){
+                window.location.href = '/myorder'
+            }else{
+                //TODO show error message
+            }
+        }).catch((e) => {
+            console.error(e)
+        })
+    }
 
 
     // Function to handle PayPal payment
@@ -85,7 +109,7 @@ const CarDetails = () => {
                         <input type="date" placeholder="Date" />
                         <input type="text" placeholder="Address" />
                         <input type="time" placeholder="Time" />
-                        <button className="paypal-button" onClick={handlePayPalPayment}>Order</button>
+                        <button className="paypal-button" onClick={handlePurchase}>Order</button>
                         <button className="paypal-button" onClick={handlePayPalPayment}>PayPal</button>
                         <button className="credit-card-button" onClick={handleCreditCardPayment}>Debit or Credit Card</button>
                     </div>

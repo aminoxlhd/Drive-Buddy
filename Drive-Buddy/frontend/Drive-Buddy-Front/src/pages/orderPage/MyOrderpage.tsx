@@ -25,7 +25,7 @@ const MyOrderPage = () => {
     }])
 
     useEffect(() => {
-        getOrderByUserId(id).then(res => {
+        getOrderByUserId().then(res => {
             setOrders(res)}
         ).catch(e => console.log(e))
     }, [])

@@ -18,12 +18,12 @@ const Login = () => {
     });
 
     const handleLogin = async () => {
-        console.log('Login button clicked'); // Log when button is clicked
+        console.log('Login button clicked'); 
         try {
             const data = { email, password, type: userType };
-            const response = await loginUser(data); // Call loginUser function
+            const response = await loginUser(data); 
             localStorage.setItem('token', response.access_token);
-            // Handle successful login response
+            localStorage.setItem('type', userType)
             setUser({
                 isLoggedIn: true,
                 type: userType,

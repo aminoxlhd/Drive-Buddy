@@ -7,9 +7,9 @@ const Nav = () => {
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
-        isLoggedIn: true,
-        type: 'teacher', // 'student' or 'teacher'
-        avatarUrl: '', // Set to empty to use default
+        isLoggedIn: localStorage.getItem('token') != null,
+        type: localStorage.getItem('type'),
+        avatarUrl: '',
     });
 
     const loginRoute = () => {
@@ -25,7 +25,7 @@ const Nav = () => {
     const handleLogout = () => {
         setUser({
             isLoggedIn: false,
-            type: '',
+            type: null,
             avatarUrl: '',
         });
         navigate('/');
@@ -40,6 +40,8 @@ const Nav = () => {
         navigate('/Settings');
         setIsDropdownVisible(false); // Close dropdown after navigation
     };
+
+
 
     return (
         <div className="container">

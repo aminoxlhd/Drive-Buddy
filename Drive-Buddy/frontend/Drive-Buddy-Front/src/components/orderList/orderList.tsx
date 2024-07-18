@@ -13,6 +13,7 @@ const OrderList = ({ orders }: OrderListProps) => {
           <th>ID</th>
           <th>Date</th>
           <th>Category</th>
+          <th>Price</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,7 @@ const OrderList = ({ orders }: OrderListProps) => {
             <td>{order.id}</td>
             <td>{order.date}</td>
             <td>{order.vehiculeCategory}</td>
+            <td>{order.price}</td>
           </tr>
         ))}
       </tbody>

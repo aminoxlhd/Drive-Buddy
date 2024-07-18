@@ -8,3 +8,16 @@ export interface ResponseData {
   message: string;
   access_token?: string;
 }
+
+
+export interface Student {
+  avatarUrl: string;
+  id : string,
+  email : string,
+  first_name : string,
+  last_name : string
+}
+
+export interface Teacher {
+
+}
