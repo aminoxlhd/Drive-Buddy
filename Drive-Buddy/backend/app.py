@@ -253,6 +253,7 @@ def update_current_student():
     except marshmallow.ValidationError as err:
         return jsonify({'errors': err.messages}), 400
 
+
 @app.route('/student/<student_id>', methods=['PUT'])
 def update_student(student_id):
     student_data = request.get_json()
@@ -516,7 +517,7 @@ def create_purchase():
     try:
         purchase_data = purchase_schema.load(purchase_data)
         purchase_collection.insert_one(purchase_data)
-        response = make_response( {'message': 'Purchase created successfully!'})
+        response = make_response( {'message': 'Purchase created successfully!'} )
         response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
         response.headers['Access-Control-Allow-Credentials'] = 'true'
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
@@ -537,6 +538,7 @@ def get_purchase(purchase_id):
 
     else:
         return {'message': 'Purchase not found'}, 404
+
 
 @app.route('/purchase_user', methods=['GET'])
 @jwt_required()
