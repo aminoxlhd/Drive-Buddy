@@ -24,7 +24,7 @@ const MyCar = () => {
         rating: 0,
         ownerName: '',
         location: '',
-        price: "", // Sample price, adjust as needed
+        price: "",
     })
 
     useEffect(() => {
@@ -50,7 +50,6 @@ const MyCar = () => {
       };
 
     const handleSave = () => {
-        // Handle save logic here
         updateVehicule(car).then(res => {}).catch(e => console.log(e))
         console.log('Car Details:', car);
         console.log('Documents:', documents);
@@ -95,6 +94,7 @@ const MyCar = () => {
                             placeholder='Location'
                         />
                         <button className="button" onClick={handleSave}>Save</button>
+                        {/* <button className="button" onClick={handleAddCar}>Add Car</button> */}
                     </div>
                 </div>
                 <div className="documents-upload-section">
