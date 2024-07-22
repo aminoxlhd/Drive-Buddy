@@ -5,7 +5,7 @@ interface CardProps {
     image: string;
     categoryType: string;
     price: number;
-    onClick: () => void; // Add onClick prop
+    onClick: () => void;
 }
 
 const Card: React.FC<CardProps> = ({ image, categoryType, price, onClick }) => (
