@@ -18,8 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
     };
 
     const handleLogout = () => {
-        // Perform logout actions here
-        navigate('/login'); // Redirect to login page after logout
+        navigate('/login');
     };
 
     return (
