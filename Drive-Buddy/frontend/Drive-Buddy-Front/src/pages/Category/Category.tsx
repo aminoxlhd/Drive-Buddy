@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import './Category.scss';
 import { getAllVehicules } from '../../services/vehicule/VehiculeService'
 // import defaultAvatar from '../../assets/Avatar-aissa.png';
