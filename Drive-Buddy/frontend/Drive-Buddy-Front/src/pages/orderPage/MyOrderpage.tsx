@@ -17,7 +17,7 @@ const MyOrderPage = () => {
         studentId: '1',
         vehiculeId: '1',
         teacherId : '1',
-        vehiculeCategory: 'SUV',
+        category: 'SUV',
         date: '2024-07-13',
         createdAt : '2024-07-01',
         address: '123 Main St',

@@ -40,8 +40,6 @@ const CarDetails = () => {
     const handlePurchase = async () => {
         createOrder({
             id : '6',
-            studentId : '3',
-            teacherId : '1', 
             vehiculeId : car.id.toString(),
             category : car.category,
             price : car.price,
@@ -107,11 +105,9 @@ const CarDetails = () => {
                     <div className="reservation-section">
                         <h3>Reserve a session</h3>
                         <input type="date" placeholder="Date" />
-                        <input type="text" placeholder="Address" />
+                        <input type="text" placeholder="Address" disabled value={car.location}/>
                         <input type="time" placeholder="Time" />
                         <button className="paypal-button" onClick={handlePurchase}>Order</button>
-                        <button className="paypal-button" onClick={handlePayPalPayment}>PayPal</button>
-                        <button className="credit-card-button" onClick={handleCreditCardPayment}>Debit or Credit Card</button>
                     </div>
                 </div>
                 <h3>Recommended</h3>

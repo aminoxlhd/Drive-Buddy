@@ -355,10 +355,7 @@ def delete_teacher(teacher_id):
 
 
 @app.route('/vehicule', methods=['GET'])
-#@jwt_required()
 def get_all_vehicule():
-    #username = get_jwt_identity()
-    #print(username)
     vehicules = list(vehicule_collection.find())
     vehicule_list = []
     vehicule_schema = VehiculeSchema()
@@ -370,10 +367,29 @@ def get_all_vehicule():
 
     return jsonify(vehicule_list)
 
+@app.route('/vehicule_by_teacher', methods=['GET'])
+@jwt_required()
+def get_vehicule_by_teacher():
+    teacherId = get_jwt_identity()
+    vehicules = list(vehicule_collection.find({"teacherid" : teacherId}))
+    vehicule_list = []
+    vehicule_schema = VehiculeSchema()
+
+    for vehicule in vehicules:
+        if vehicule:
+            vehicule_dict = vehicule_schema.dump(vehicule)
+            vehicule_list.append(vehicule_dict)
+
+    return jsonify(vehicule_list)
 
 @app.route('/vehicule', methods=['POST'])
+@jwt_required()
 def create_vehicule():
+    teacherId = get_jwt_identity()
+    print(teacherId)
     vehicule_data = request.get_json()
+    vehicule_data['teacherid'] = teacherId
+    print(vehicule_data)
     vehicule_schema = VehiculeSchema()
     try:
         validated_data = vehicule_schema.load(vehicule_data)
@@ -511,20 +527,24 @@ def get_all_purchase():
 @jwt_required()
 def create_purchase():
     user_id = get_jwt_identity()
-    print(user_id)
     purchase_data = request.get_json()
-    purchase_schema = PurchaseSchema()
-    try:
-        purchase_data = purchase_schema.load(purchase_data)
-        purchase_collection.insert_one(purchase_data)
-        response = make_response( {'message': 'Purchase created successfully!'} )
-        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        return response
-    except marshmallow.ValidationError as err:
-        return jsonify({'errors': err.messages}), 400
+    purchase_data['studentId'] = user_id
+    vehiculeId = purchase_data['vehiculeId']
+    vehicule = vehicule_collection.find_one({"id": vehiculeId})
+    if vehicule:
+        purchase_data['teacherId'] = vehicule.get('teacherid')
+        purchase_schema = PurchaseSchema()
+        try:
+            purchase_data = purchase_schema.load(purchase_data)
+            purchase_collection.insert_one(purchase_data)
+            response = make_response({'message': 'Purchase created successfully!'})
+            response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            return response
+        except marshmallow.ValidationError as err:
+            return jsonify({'errors': err.messages}), 400
 
 
 @app.route('/purchase/<purchase_id>', methods=['GET'])

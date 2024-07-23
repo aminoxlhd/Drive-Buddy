@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import "./Mycar.scss"
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useParams } from 'react-router-dom';
-import { getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
+import { createVehicule, getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
 
 
 interface Documents {
@@ -17,19 +17,24 @@ interface Documents {
 const MyCar = () => {
     const { id } = useParams();
     const [car, setCar] = useState<VehiculeModel>({
-        id : 1,
+        id : '1',
         imageUrl: '',
         title: '',
         category: '',
-        rating: 0,
+        rating: '0',
         ownerName: '',
         location: '',
         price: "",
     })
+    
+    if(id){
+        // update
+        useEffect(() => {
+            getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
+        }, [])
+    }
 
-    useEffect(() => {
-        getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
-    }, [])
+    
 
     const [documents, setDocuments] = useState<Documents>({
         drivingLicence: null,
@@ -50,7 +55,16 @@ const MyCar = () => {
       };
 
     const handleSave = () => {
-        updateVehicule(car).then(res => {}).catch(e => console.log(e))
+        console.log(id)
+        if(!id){
+            // creation 
+            createVehicule(car).then(res => {}).catch(e => console.log(e))
+        }else{
+            // update
+            updateVehicule(car).then(res => {}).catch(e => console.log(e))
+
+        }
+
         console.log('Car Details:', car);
         console.log('Documents:', documents);
     };
@@ -93,8 +107,15 @@ const MyCar = () => {
                             className="car-input"
                             placeholder='Location'
                         />
+                        <input
+                            type="text"
+                            name="price"
+                            value={car.price}
+                            onChange={handleChange}
+                            className="car-input"
+                            placeholder='Price'
+                        />
                         <button className="button" onClick={handleSave}>Save</button>
-                        {/* <button className="button" onClick={handleAddCar}>Add Car</button> */}
                     </div>
                 </div>
                 <div className="documents-upload-section">

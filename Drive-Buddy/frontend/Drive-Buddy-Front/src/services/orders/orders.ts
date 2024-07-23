@@ -9,3 +9,15 @@ export interface OrderModel {
     date: string;
     createdAt: string;
   }  
+
+
+
+  export interface OrderRequest {
+    id: string;
+    vehiculeId : string;
+    category : string;
+    price: string;
+    address: string;
+    date: string;
+    createdAt: string;
+  }  

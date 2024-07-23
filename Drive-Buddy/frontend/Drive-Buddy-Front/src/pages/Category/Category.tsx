@@ -13,6 +13,7 @@ const Category = () => {
 
     const filterCars = (category: string) => {
         if (category === 'All') {
+            console.log(cars)
             return cars;
         } else {
             return cars.filter((car: { category: string; }) => car.category === category);

@@ -1,10 +1,10 @@
 
 
 export interface VehiculeModel {
-    id : number,
+    id : string,
     category : string,
     title : string,
-    rating : number,
+    rating : string,
     imageUrl : string,
     ownerName : string,
     location : string,

@@ -11,6 +11,20 @@ export const getAllVehicules = async (): Promise<VehiculeModel[]> => {
     return response.json();
 }
 
+
+export const getAllVehiculesByTeacher = async (): Promise<VehiculeModel[]> => {
+    let token = localStorage.getItem('token')
+    const response = await axios.get(`http://localhost:5000/vehicule_by_teacher`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }, 
+      withCredentials : true
+    });
+  
+    let responseJson = await response.data
+    return responseJson;
+}
+
 export const getVehicule = async (id : string | undefined): Promise<VehiculeModel> => {
     const response = await fetch(BASE_URL + "/" + id, {
         method: 'GET',
@@ -27,5 +41,24 @@ export const updateVehicule = async (vehicule : VehiculeModel): Promise<void> =>
     const response = await axios.put(BASE_URL + "/" + vehicule.id,
         vehicule
     );
+
+}
+
+
+export const createVehicule = async (vehicule : VehiculeModel): Promise<void> => {
+    let token = localStorage.getItem('token')
+    vehicule.id = "11"
+    const response = await axios.post(`${BASE_URL}`, 
+        vehicule,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }, 
+            withCredentials : true
+        }
+    );
+  
+    let responseJson = await response.data
+    return responseJson;
 
 }

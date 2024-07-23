@@ -21,7 +21,7 @@ const OrderList = ({ orders }: OrderListProps) => {
           <tr key={order.id}>
             <td>{order.id}</td>
             <td>{order.date}</td>
-            <td>{order.vehiculeCategory}</td>
+            <td>{order.category}</td>
             <td>{order.price}</td>
           </tr>
         ))}

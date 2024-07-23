@@ -11,7 +11,8 @@ const Profile = () => {
         id : '',
         first_name : '',
         last_name : '',
-        email : ''
+        email : '',
+        avatarUrl : ''
     });
 
     const [avatar, setAvatar] = useState<File | null>(null);

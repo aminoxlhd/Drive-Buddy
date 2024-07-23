@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { OrderModel } from './orders'
+import { OrderModel, OrderRequest } from './orders'
 
 const BASE_URL = "http://localhost:5000";
 
@@ -40,7 +40,7 @@ export const getAllOrders = async (): Promise<OrderModel[]> => {
 };
 
 // Create a new order
-export const createOrder = async (order: OrderModel): Promise<boolean> => {
+export const createOrder = async (order: OrderRequest): Promise<boolean> => {
   try {
     let token = localStorage.getItem('token')
     const response = await axios.post(`${BASE_URL}/purchase`, 

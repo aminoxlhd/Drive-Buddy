@@ -54,7 +54,7 @@ const Nav = () => {
                         <>
                             <Link to="/myorder">My Orders</Link>
                             <Link to="/category">Category</Link>
-                            {user.type === 'teacher' && <Link to="/mycar">My Cars</Link>}
+                            {user.type === 'teacher' && <Link to="/mycars">My Cars</Link>}
                         </>
                     ) : (
                         <>
