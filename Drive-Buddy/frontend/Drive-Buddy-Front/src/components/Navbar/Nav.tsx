@@ -10,6 +10,7 @@ const Nav = () => {
         isLoggedIn: localStorage.getItem('token') != null,
         type: localStorage.getItem('type'),
         avatarUrl: localStorage.getItem('avatar'),
+        isAdmin : localStorage.getItem('admin') == "true"
     });
 
     const loginRoute = () => {
@@ -27,6 +28,7 @@ const Nav = () => {
             isLoggedIn: false,
             type: null,
             avatarUrl: '',
+            isAdmin : false
         });
         navigate('/');
     };
@@ -50,21 +52,33 @@ const Nav = () => {
                     <Link to="/">Driver<span>B.</span></Link>
                 </div>
                 <div className="nav-links">
-                    {user.isLoggedIn ? (
-                        <>
-                            {user.type === 'teacher' && <Link to="/myorder-teacher">Manage My Orders</Link>}
-                            {user.type === 'student' && <Link to="/myorder">My Orders</Link>}
-                            <Link to="/category">Category</Link>
-                            {user.type === 'teacher' && <Link to="/mycars">My Cars</Link>}
-                        </>
+                    { user.isAdmin ? (
+                        <div>
+                             <Link to="/teachers">Teachers</Link>
+                             <Link to="/students">Students</Link>
+                             <Link to="/purchases">Purchases</Link>
+                             <Link to="/cars">Cars</Link>
+                        </div>
                     ) : (
-                        <>
-                            <Link to="/">Home</Link>
-                            <Link to="/category">Category</Link>
-                            <Link to="/prices">Prices</Link>
-                            <Link to="/contactus">Contact Us</Link>
-                        </>
+                        <div>
+                            {user.isLoggedIn ? (
+                                <>
+                                    {user.type === 'teacher' && <Link to="/myorder-teacher">Manage My Orders</Link>}
+                                    {user.type === 'student' && <Link to="/myorder">My Orders</Link>}
+                                    <Link to="/category">Category</Link>
+                                    {user.type === 'teacher' && <Link to="/mycars">My Cars</Link>}
+                                </>
+                            ) : (
+                                <>
+                                    <Link to="/">Home</Link>
+                                    <Link to="/category">Category</Link>
+                                    <Link to="/prices">Prices</Link>
+                                    <Link to="/contactus">Contact Us</Link>
+                                </>
+                            )}
+                        </div>
                     )}
+
                 </div>
                 <div className="nav-user">
                     {user.isLoggedIn ? (

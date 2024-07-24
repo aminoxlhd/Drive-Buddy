@@ -44,14 +44,31 @@ export const getOrderByTeacher = async (): Promise<OrderModel> => {
 
 // Get all orders
 export const getAllOrders = async (): Promise<OrderModel[]> => {
-  try {
-    const response = await axios.get<OrderModel[]>(`${BASE_URL}/purchase`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching orders');
-  }
+  let token = localStorage.getItem('token')
+  const response = await axios.get(`${BASE_URL}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }, 
+    withCredentials : true
+  });
+
+  let responseJson = await response.data
+  return responseJson;
 };
 
+
+
+export const deleteOrder = async (orderId : string): Promise<boolean> => {
+  let token = localStorage.getItem('token')
+  const response = await axios.delete(`${BASE_URL}/${orderId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }, 
+    withCredentials : true
+  });
+
+  return response.status == 200
+};
 // Create a new order
 export const createOrder = async (order: OrderRequest): Promise<boolean> => {
   try {

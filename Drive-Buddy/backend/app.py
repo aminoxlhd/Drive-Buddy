@@ -8,7 +8,7 @@ from flask_jwt_extended import jwt_required, JWTManager, create_access_token, ge
 from pymongo import MongoClient
 from flask import Flask, request, jsonify, make_response
 from models import CourseSchema, CategorySchema, StudentSchema, TeacherSchema, VehiculeSchema, MediaSchema, \
-    PurchaseSchema
+    PurchaseSchema, AdminSchema
 from flask_cors import CORS
 
 FRONT_END_URL = 'http://localhost:5173'
@@ -35,6 +35,7 @@ courses_collection = db["courses"]
 category_collection = db["category"]
 instructors_collection = db["instructors"]
 student_collection = db["student"]
+admin_collection = db["admin"]
 teacher_collection = db["teacher"]
 vehicule_collection = db["vehicule"]
 media_collection = db["media"]
@@ -320,7 +321,12 @@ def update_current_teacher():
 
 
 @app.route('/teacher', methods=['GET'])
+@jwt_required()
 def get_all_teacher():
+    adminId = get_jwt_identity()
+    admin = admin_collection.find_one({'id' : adminId})
+    if not admin:
+        return {'message' : 'User not allowed'}, 400
     teachers = list(teacher_collection.find())
     teacher_list = []
     teacher_schema = TeacherSchema()
@@ -379,7 +385,12 @@ def update_teacher(teacher_id):
 
 
 @app.route('/teacher/<teacher_id>', methods=['DELETE'])
+@jwt_required()
 def delete_teacher(teacher_id):
+    adminId = get_jwt_identity()
+    admin = admin_collection.find_one({'id': adminId})
+    if not admin:
+        return {'message': 'User not allowed'}, 400
     teacher = teacher_collection.find_one_and_delete({"id": teacher_id})
     if teacher:
         return {'message': 'Teacher deleted successfully!'}
@@ -676,8 +687,10 @@ def login():
     type = data['type']
     if type == 'student':
         user = student_collection.find_one({"email": email})
-    else:
+    elif type == "student":
         user = teacher_collection.find_one({"email": email})
+    else : # Admin
+        user = admin_collection.find_one({"email" : email})
 
     if user and bcrypt.check_password_hash(user.get('password'), password):
         access_token = create_access_token(identity=user.get('id'), expires_delta=timedelta(minutes=60))
@@ -685,6 +698,20 @@ def login():
     else:
         return jsonify({'message': 'Login Failed'}), 401
 
+
+@app.route('/admin', methods=['POST'])
+def add_admin():
+    admin_data = request.get_json()
+    admin_schema = AdminSchema()
+    try:
+        validated_data = admin_schema.load(admin_data)
+        user_password = validated_data.get('password')
+        hashed_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
+        validated_data['password'] = hashed_password
+        admin_collection.insert_one(validated_data)
+        return {'message': 'Admin created successfully!'}
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
 
 def get_next_id(collection : any):
     last_id = collection.find({}, {"id": 1}, sort=[('id', -1)]).limit(1).next()

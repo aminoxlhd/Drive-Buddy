@@ -18,6 +18,11 @@ import Profile from './pages/profiles/Profile';
 import Settings from './pages/settings/Settings';
 import MyCars from './pages/mycars/mycars';
 import MyOrderPageTeacher from './pages/orderPageTeacher/MyOrderpage';
+import { AdminLoginPage } from './pages/admin/admin';
+import { TeachersPage } from './pages/admin/teachers/teachers';
+import { StudentsPage } from './pages/admin/students/students';
+import { OrdersPage } from './pages/admin/orders/orders';
+import { CarsPage } from './pages/admin/cars/cars';
 
 const sampleCar = {
   id: '1',
@@ -50,6 +55,12 @@ function App() {
         <Route path="/StudentSignup" element={<StudentSignup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/admin" element={<AdminLoginPage/>}/>
+        <Route path="/teachers" element={<TeachersPage/>}/>
+        <Route path="/students" element={<StudentsPage/>}/>
+        <Route path="/purchases" element={<OrdersPage/>}/>
+        <Route path="/cars" element={<CarsPage/>}/>
+
       </Routes>
     </Router>
   );

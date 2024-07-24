@@ -41,8 +41,11 @@ class StudentSchema(Schema):
     date_birth = fields.Str()
     phone_number = fields.Str()
     media = fields.Str()
-    teacherid = fields.Str()
 
+class AdminSchema(Schema):
+    id = fields.Str(required=True)
+    email = fields.Email(required=True)
+    password = fields.Str(required=True)
 
 class VehiculeSchema(Schema):
     id = fields.Str()

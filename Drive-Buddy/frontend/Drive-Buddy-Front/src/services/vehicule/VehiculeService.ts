@@ -62,3 +62,19 @@ export const createVehicule = async (vehicule : VehiculeModel): Promise<void> =>
     return responseJson;
 
 }
+
+
+
+
+export const deleteVehicule = async(vehiculeId : string) => {
+    let token = localStorage.getItem('token')
+    const response = await axios.delete(`${BASE_URL}/${vehiculeId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }, 
+      withCredentials : true
+    });
+  
+    let responseJson = await response.data
+    return responseJson;
+  }
