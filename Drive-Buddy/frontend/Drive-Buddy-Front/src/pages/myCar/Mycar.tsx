@@ -3,7 +3,7 @@ import "./Mycar.scss"
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useParams } from 'react-router-dom';
 import { createVehicule, getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
-import { uploadFileToCloudinary, uploadImage } from '../../services/cloudinary/cloudinary';
+import {  uploadImage } from '../../services/cloudinary/cloudinary';
 
 
 interface Documents {
@@ -17,6 +17,9 @@ interface Documents {
 
 const MyCar = () => {
     const { id } = useParams();
+    let message = "Vehicule Updated"
+
+    const [showMessage, setShowMessage] = useState(false)
     const [car, setCar] = useState<VehiculeModel>({
         id : '1',
         imageUrl: '',
@@ -43,19 +46,24 @@ const MyCar = () => {
         certification: null,
         carDetails: null,
     });
-
     const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const { name, files } = e.target;
         if (files && files.length > 0) {
-            console.log(documents.photo)
-            if(documents.photo){
-                // let url = await uploadFileToCloudinary(documents.photo)
-                // console.log(url);
-                
+          const selectedFile = files[0]; 
+      
+          try {
+            const url = await uploadImage(selectedFile);
+            if (url) {
+              car.imageUrl = url;
+              setDocuments({ ...documents, [name]: null }); 
+            } else {
+              console.error('Error uploading image');
             }
-            setDocuments({ ...documents, [name]: files[0] });
+          } catch (error) {
+            console.error('Error uploading image:', error);
+          }
         }
-    };
+      };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCar({ ...car, [event.target.name]: event.target.value });
@@ -66,21 +74,19 @@ const MyCar = () => {
         if(!id){
             // creation 
             createVehicule(car).then(res => {}).catch(e => console.log(e))
+            message = "Vehicule Created"
         }else{
             // update
             updateVehicule(car).then(res => {}).catch(e => console.log(e))
-
         }
-
-        console.log('Car Details:', car);
-        console.log('Documents:', documents);
+        setShowMessage(true)
     };
 
     return (
         <div className='container'>
             <div className="my-car-container">
                 <div className="car-image-section">
-                    <img src={car.imageUrl} alt={car.title} className="car-image" />
+                    { showMessage && <h3 style={{color : 'green'}}>{message}</h3>}
                     <div className="car-info">
                         <input
                             type="text"
@@ -127,58 +133,18 @@ const MyCar = () => {
                 </div>
                 <div className="documents-upload-section">
                     <h3>Upload Car Image</h3>
-                    <div className={`document-upload ${documents.photo ? 'approved' : ''}`}>
+                    <img src={car.imageUrl} alt={car.title} className="car-image" />
+
+                    <div className={`document-upload ${car.imageUrl ? 'approved' : ''}`}>
                         <div className="document-label">
                             <span className="icon">📄</span>
                             Car Image
                         </div>
                         <div className="document-status">
-                            {documents.photo ? 'State: Approved' : 'Upload your driving licence'}
+                            {documents.photo ? 'State: Approved' : 'Upload your car image'}
                             <input
                                 type="file"
                                 name="photo"
-                                onChange={handleFileChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="document-upload">
-                        <div className="document-label">
-                            <span className="icon">📄</span>
-                            Insurance
-                        </div>
-                        <div className="document-status">
-                            Upload your insurance
-                            <input
-                                type="file"
-                                name="insurance"
-                                onChange={handleFileChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="document-upload">
-                        <div className="document-label">
-                            <span className="icon">📄</span>
-                            Certification
-                        </div>
-                        <div className="document-status">
-                            Upload your certification
-                            <input
-                                type="file"
-                                name="certification"
-                                onChange={handleFileChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="document-upload">
-                        <div className="document-label">
-                            <span className="icon">📄</span>
-                            Car Details
-                        </div>
-                        <div className="document-status">
-                            Upload your car details
-                            <input
-                                type="file"
-                                name="carDetails"
                                 onChange={handleFileChange}
                             />
                         </div>

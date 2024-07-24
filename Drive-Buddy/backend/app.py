@@ -386,10 +386,11 @@ def get_vehicule_by_teacher():
 @jwt_required()
 def create_vehicule():
     teacherId = get_jwt_identity()
-    print(teacherId)
+
     vehicule_data = request.get_json()
     vehicule_data['teacherid'] = teacherId
-    print(vehicule_data)
+    nextId = get_next_id(vehicule_collection)
+    vehicule_data['id'] = nextId
     vehicule_schema = VehiculeSchema()
     try:
         validated_data = vehicule_schema.load(vehicule_data)
@@ -626,5 +627,8 @@ def login():
         return jsonify({'message': 'Login Failed'}), 401
 
 
+def get_next_id(collection : any):
+    last_id = collection.find({}, {"id": 1}, sort=[('id', -1)]).limit(1).next()
+    return str(int(last_id['id']) + 1)
 if __name__ == '__main__':
     app.run(debug=True)
