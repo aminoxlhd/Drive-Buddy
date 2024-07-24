@@ -86,7 +86,7 @@ const MyCar = () => {
         <div className='container'>
             <div className="my-car-container">
                 <div className="car-image-section">
-                    { showMessage && <h3 style={{color : 'green'}}>{message}</h3>}
+                    { showMessage && <h3 className="alert alert-success" style={{color : 'green'}}>{message}</h3>}
                     <div className="car-info">
                         <input
                             type="text"

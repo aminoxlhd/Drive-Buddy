@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LoginData, Student } from './auth.interface';
+import { LoginData, Student, Teacher } from './auth.interface';
 
 const BASE_URL = 'http://localhost:5000';
 
@@ -36,11 +36,44 @@ export const getCurrentStudent = async (): Promise<Student> => {
     return responseJson;
   }
   
-  export const updateCurrentStudent = async (student : Student): Promise<void> => {
+
+export const getCurrentTeacher = async (): Promise<Teacher> => {
     let token = localStorage.getItem('token')
   
-    const response = await axios.put(`${BASE_URL}/current_student`,
-        student,
+    const response = await axios.get(`${BASE_URL}/current_teacher`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }, 
+      withCredentials : true
+    });
+  
+    let responseJson = await response.data
+    return responseJson;
+  }
+
+export const updateCurrentStudent = async (student : Student): Promise<void> => {
+let token = localStorage.getItem('token')
+
+const response = await axios.put(`${BASE_URL}/current_student`,
+    student,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }, 
+        withCredentials : true
+    }
+    
+);
+
+let responseJson = await response.data
+return responseJson;
+}
+
+export const updateCurrentTeacher = async (teacher : Teacher): Promise<void> => {
+    let token = localStorage.getItem('token')
+    
+    const response = await axios.put(`${BASE_URL}/current_teacher`,
+        teacher,
         {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -49,9 +82,10 @@ export const getCurrentStudent = async (): Promise<Student> => {
         }
         
     );
-  
+    
     let responseJson = await response.data
     return responseJson;
-  }
-  
+    }
+    
+
 

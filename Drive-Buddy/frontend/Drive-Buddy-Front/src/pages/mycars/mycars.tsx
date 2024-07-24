@@ -30,8 +30,10 @@ const MyCars = () => {
     
     return (
         <div className='container'>
-            <h1>My Cars</h1>
-            <button onClick={addCar}>Add Vehicule</button>
+            <div className="row justify-content-md-center">
+                <h1 className="col-md-10">My Cars</h1>
+                <button className="btn btn-primary col-md-2" onClick={addCar}>Add Vehicule</button>
+            </div>
             <VehiculeList vehicules={cars} />
 
         </div>

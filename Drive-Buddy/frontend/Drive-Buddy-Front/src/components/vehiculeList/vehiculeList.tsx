@@ -13,10 +13,11 @@ const VehiculeList = ({ vehicules }: VehiculeListProps) => {
     navigate('/mycar/' + carId)
   }
   return (
-    <table>
+    <table className='table'>
       <thead>
         <tr>
           <th>ID</th>
+          <th>Image</th>
           <th>Title</th>
           <th>Category</th>
           <th>Price</th>
@@ -27,10 +28,11 @@ const VehiculeList = ({ vehicules }: VehiculeListProps) => {
         {vehicules.map((vehicule) => (
           <tr key={vehicule.id}>
             <td>{vehicule.id}</td>
+            <td><img src={vehicule.imageUrl}/></td>
             <td>{vehicule.title}</td>
             <td>{vehicule.category}</td>
             <td>{vehicule.price}</td>
-            <td><button onClick={() => editCar(vehicule.id)} >Edit</button></td>
+            <td><button className="btn btn-primary" onClick={() => editCar(vehicule.id)} >Edit</button></td>
           </tr>
         ))}
       </tbody>

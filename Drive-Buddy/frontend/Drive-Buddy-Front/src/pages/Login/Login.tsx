@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.scss';
-import { loginUser } from '../../services/auth/auth'; // Import loginUser function
+import { getCurrentStudent, getCurrentTeacher, loginUser } from '../../services/auth/auth'; // Import loginUser function
 
 
 
@@ -24,10 +24,21 @@ const Login = () => {
             const response = await loginUser(data); 
             localStorage.setItem('token', response.access_token);
             localStorage.setItem('type', userType)
+            let avatar = ''
+            if(userType == 'student'){
+                let student = await getCurrentStudent()
+                localStorage.setItem('avatar', student.media)
+                avatar = student.media
+            }else{
+                let teacher = await getCurrentTeacher()
+                localStorage.setItem('avatar', teacher.media)
+                avatar = teacher.media
+            }
+
             setUser({
                 isLoggedIn: true,
                 type: userType,
-                avatarUrl: response.avatarUrl || 'assets/default-avatar.jpg',
+                avatarUrl: avatar || 'assets/default-avatar.jpg',
             });
             window.location.href = "/"
 
@@ -72,7 +83,7 @@ const Login = () => {
                 <button onClick={handleLogin}>Login</button>
             </div>
             <div className="login-image">
-                <img src="/assets/girlly.jpg" alt="Login" />
+                <img src="../assets/girlly.jpg" alt="Login" />
             </div>
         </div>
     );

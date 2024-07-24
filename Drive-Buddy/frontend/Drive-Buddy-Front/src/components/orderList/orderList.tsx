@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { OrderModel } from '../../services/orders/orders'
 import { acceptOrder, cancelOrder } from '../../services/orders/ordersService';
+import 'bootstrap/dist/css/bootstrap.css';
 
 interface OrderListProps {
   orders: OrderModel[];
@@ -27,8 +28,8 @@ const OrderList = ({ orders }: OrderListProps) => {
 
   return (
     <div>
-      { message != "" && <h5 style={{color : 'green'}}>{message}</h5>}
-      <table>
+      { message != "" && <h5 className="alert alert-success" style={{color : 'green'}}>{message}</h5>}
+      <table className="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -48,8 +49,8 @@ const OrderList = ({ orders }: OrderListProps) => {
               <td>{order.category}</td>
               <td>{order.price}</td>
               <td>{order.status}</td>
-              <td>{ type == "teacher" && <button onClick={() => acceptOrderBtn(order.id)}>Accept Order</button>}</td>
-              <td><button onClick={() => cancelOrderBtn(order.id)} >Cancel Order</button></td>
+              <td>{ type == "teacher" && <button className='btn btn-primary' onClick={() => acceptOrderBtn(order.id)}>Accept Order</button>}</td>
+              <td><button className='btn btn-danger' onClick={() => cancelOrderBtn(order.id)} >Cancel Order</button></td>
             </tr>
           ))}
         </tbody>

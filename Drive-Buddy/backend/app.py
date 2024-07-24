@@ -283,6 +283,40 @@ def delete_student(student_id):
 
 
 ##############
+@app.route('/current_teacher', methods=['GET'])
+@jwt_required()
+def get_current_teacher():
+    teacher_id = get_jwt_identity()
+    student = teacher_collection.find_one({"id": teacher_id})
+
+    if student:
+        teacher_schema = TeacherSchema()
+        teacher_dict = teacher_schema.dump(student)
+        response = make_response(teacher_dict)
+        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
+    else:
+        return {'message': 'Student not found'}, 404
+
+@app.route('/current_teacher', methods=['PUT'])
+@jwt_required()
+def update_current_teacher():
+    teacher_data = request.get_json()
+    teacher_id = get_jwt_identity()
+    teacher_schema = TeacherSchema()
+    try:
+        validated_data = teacher_schema.load(teacher_data)
+        student_category = teacher_collection.find_one_and_update(
+            {"id": teacher_id}, {"$set": validated_data})
+        if student_category:
+            return {'message': 'Teacher updated successfully!'}
+        else:
+            return {'message': 'Teacher not found'}, 404
+    except marshmallow.ValidationError as err:
+        return jsonify({'errors': err.messages}), 400
 
 
 @app.route('/teacher', methods=['GET'])

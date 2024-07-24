@@ -11,7 +11,7 @@ export interface ResponseData {
 
 
 export interface Student {
-  avatarUrl: string;
+  media: string;
   id : string,
   email : string,
   first_name : string,
@@ -19,5 +19,9 @@ export interface Student {
 }
 
 export interface Teacher {
-
+  media: string;
+  id : string,
+  email : string,
+  first_name : string,
+  last_name : string
 }

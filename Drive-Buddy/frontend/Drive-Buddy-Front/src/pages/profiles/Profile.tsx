@@ -1,24 +1,34 @@
 // components/Profile.tsx
 
 import React, { useState, useEffect } from 'react';
-import { getCurrentStudent, updateCurrentStudent } from '../../services/auth/auth';
-import { updateUserInfo } from '../../services/updateUserInfo/updateUserInfo';
-import { User, UpdateUserData } from '../../services/updateUserInfo/updateUserInfo.interface';
-import { Student } from '../../services/auth/auth.interface';
+import { getCurrentStudent, getCurrentTeacher, updateCurrentStudent } from '../../services/auth/auth';
+import { Student, Teacher } from '../../services/auth/auth.interface';
+import { uploadImage } from '../../services/cloudinary/cloudinary';
 
 const Profile = () => {
-    const [user, setUser] = useState<Student>({
+    const [user, setUser] = useState<Student | Teacher>({
         id : '',
         first_name : '',
         last_name : '',
         email : '',
-        avatarUrl : ''
+        media : ''
     });
-
-    const [avatar, setAvatar] = useState<File | null>(null);
+    let userType = localStorage.getItem('type')
+    const [avatar, setAvatar] = useState<String | null>(null);
 
     useEffect(() => {
-        getCurrentStudent().then(res => setUser(res)).catch((e) => console.error('Error fetching user : ' + e))
+        if(userType == "student")
+            getCurrentStudent().then(res => {
+                setUser(res)
+                setAvatar(res.media)
+            }
+            ).catch((e) => console.error('Error fetching user : ' + e))
+        else
+            getCurrentTeacher().then(res => {
+                setUser(res)
+                setAvatar(res.media)
+            }
+            ).catch((e) => console.error('Error fetching user : ' + e))
     }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +38,12 @@ const Profile = () => {
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setAvatar(e.target.files[0]);
+            uploadImage(e.target.files[0]).then(res => {
+                user.media = res
+                updateCurrentStudent(user).then(() => {}).catch(e => {}) 
+                setAvatar(res);
+
+            })
         }
     };
 
@@ -37,11 +52,9 @@ const Profile = () => {
         if (user) {
             try {
                 updateCurrentStudent(user).then(() => {
-                    // TODO show message succes
                 }).catch(e => {
-                    // TODO show error message
                 }) 
-                setAvatar(null);
+                setAvatar(user.media);
             } catch (error) {
                 console.error('Error updating user data:', error);
             }
@@ -55,39 +68,46 @@ const Profile = () => {
     
 
     return (
-        <div className="profile-container">
+        <div className="container profile-container">
             <h1>Student Profile</h1>
             <form onSubmit={handleSubmit}>
-                <div className="avatar">
-                    <img src={user.avatarUrl || '/default-avatar.png'} alt="User Avatar" />
+                <div className="avatar form-groupe">
+                    <img src={user.media || '/default-avatar.png'} alt="User Avatar" />
+                    <br/>
                     <input type="file" name="avatarUrl" onChange={handleAvatarChange} />
                 </div>
                 <div className="user-details">
-                    <label>
-                        First Name:
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={user.first_name}
-                            onChange={handleChange}
-                            disabled
-                        />
-                    </label>
-                    <label>
-                        Last Name:
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={user.last_name}
-                            onChange={handleChange} 
-                            disabled
-                        />
-                    </label>
-                    <label>
-                        Email:
-                        <input type="email" name="email" value={user.email} onChange={handleChange} />
-                    </label>
-                    <button type="submit">Update Profile</button>
+                    <div className="form-group">
+                        <label>
+                            First Name:
+                            <input
+                                type="text"
+                                name="firstName"
+                                value={user.first_name}
+                                onChange={handleChange}
+                                disabled
+                            />
+                        </label>
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Last Name:
+                            <input
+                                type="text"
+                                name="lastName"
+                                value={user.last_name}
+                                onChange={handleChange} 
+                                disabled
+                            />
+                        </label>
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            Email:
+                            <input type="email" name="email" value={user.email} onChange={handleChange} />
+                        </label>
+                    </div>
+                    <button className="btn btn-primary" type="submit">Update Profile</button>
                 </div>
             </form>
         </div>

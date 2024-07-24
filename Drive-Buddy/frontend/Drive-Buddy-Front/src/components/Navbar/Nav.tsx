@@ -9,7 +9,7 @@ const Nav = () => {
     const [user, setUser] = useState({
         isLoggedIn: localStorage.getItem('token') != null,
         type: localStorage.getItem('type'),
-        avatarUrl: '',
+        avatarUrl: localStorage.getItem('avatar'),
     });
 
     const loginRoute = () => {
