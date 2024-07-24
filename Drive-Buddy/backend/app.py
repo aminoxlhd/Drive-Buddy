@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 import marshmallow
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
@@ -644,7 +646,7 @@ def login():
         user = teacher_collection.find_one({"email": email})
 
     if user and bcrypt.check_password_hash(user.get('password'), password):
-        access_token = create_access_token(identity=user.get('id'))
+        access_token = create_access_token(identity=user.get('id'), expires_delta=timedelta(minutes=60))
         return jsonify({'message': 'Login Success', 'access_token': access_token})
     else:
         return jsonify({'message': 'Login Failed'}), 401
