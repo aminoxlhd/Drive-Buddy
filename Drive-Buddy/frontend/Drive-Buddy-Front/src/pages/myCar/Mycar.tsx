@@ -17,7 +17,7 @@ interface Documents {
 
 const MyCar = () => {
     const { id } = useParams();
-    let message = "Vehicule Updated"
+    const [message, setMessage] = useState("Vehicule Updated")
 
     const [showMessage, setShowMessage] = useState(false)
     const [car, setCar] = useState<VehiculeModel>({
@@ -74,7 +74,7 @@ const MyCar = () => {
         if(!id){
             // creation 
             createVehicule(car).then(res => {}).catch(e => console.log(e))
-            message = "Vehicule Created"
+            setMessage("Vehicule Created")
         }else{
             // update
             updateVehicule(car).then(res => {}).catch(e => console.log(e))

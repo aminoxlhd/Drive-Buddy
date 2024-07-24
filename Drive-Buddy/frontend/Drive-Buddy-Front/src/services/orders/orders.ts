@@ -5,6 +5,7 @@ export interface OrderModel {
     vehiculeId : string;
     category : string;
     price: string;
+    status : string;
     address: string;
     date: string;
     createdAt: string;

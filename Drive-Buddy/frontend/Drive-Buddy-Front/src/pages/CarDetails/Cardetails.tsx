@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import Card from '../../components/card/Card';
-import { initiatePayment } from '../../services/payment/payments'; // Import the payment function
 import { getVehicule } from '../../services/vehicule/VehiculeService'
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { createOrder } from '../../services/orders/ordersService';

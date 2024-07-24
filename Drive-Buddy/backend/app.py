@@ -530,10 +530,12 @@ def create_purchase():
     user_id = get_jwt_identity()
     purchase_data = request.get_json()
     purchase_data['studentId'] = user_id
+    purchase_data['status'] = 'Waiting'
     vehiculeId = purchase_data['vehiculeId']
     vehicule = vehicule_collection.find_one({"id": vehiculeId})
     if vehicule:
         purchase_data['teacherId'] = vehicule.get('teacherid')
+        purchase_data['id'] = get_next_id(purchase_collection)
         purchase_schema = PurchaseSchema()
         try:
             purchase_data = purchase_schema.load(purchase_data)
@@ -582,9 +584,30 @@ def get_purchase_by_user():
     else:
         return {'message': 'Purchase not found'}, 404
 
+@app.route('/purchase_teacher', methods=['GET'])
+@jwt_required()
+def get_purchase_by_teacher():
+    user_id = get_jwt_identity()
+    print(user_id)
+    purchase = purchase_collection.find({"teacherId": user_id})
+
+    if purchase:
+        purchase_schema = PurchaseSchema(many=True)
+        purchase_dict = purchase_schema.dump(purchase)
+        response = make_response(purchase_dict)
+        response.headers['Access-Control-Allow-Origin'] = FRONT_END_URL
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        return response
+    else:
+        return {'message': 'Purchase not found'}, 404
+
 
 @app.route('/purchase/<purchase_id>', methods=['PUT'])
+@jwt_required()
 def update_purchase(purchase_id):
+    user_id = get_jwt_identity()
     purchase_data = request.get_json()
     purchase_schema = PurchaseSchema()
 

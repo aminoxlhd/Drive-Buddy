@@ -2,9 +2,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Column, useTable } from 'react-table';
 import './OrderPage.scss';
 import {OrderModel} from '../../services/orders/orders'
-import {getOrderByUserId} from '../../services/orders/ordersService'
+import {getOrderByTeacher, getOrderByUserId} from '../../services/orders/ordersService'
 import  OrderList  from '../../components/orderList/orderList'
-const MyOrderPage = () => {
+const MyOrderPageTeacher = () => {
     const id = "1"
     const [user, setUser] = useState({
         isLoggedIn: true,
@@ -26,7 +26,7 @@ const MyOrderPage = () => {
     }])
 
     useEffect(() => {
-        getOrderByUserId().then(res => {
+        getOrderByTeacher().then(res => {
             setOrders(res)}
         ).catch(e => console.log(e))
     }, [])
@@ -45,4 +45,4 @@ const MyOrderPage = () => {
     );
 };
 
-export default MyOrderPage;
+export default MyOrderPageTeacher;

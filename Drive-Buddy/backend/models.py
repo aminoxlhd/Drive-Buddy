@@ -71,6 +71,7 @@ class PurchaseSchema(Schema):
     vehiculeId = fields.Str()
     category = fields.Str()
     price = fields.Str()
+    status = fields.Str()
     date = fields.Str()
     createdAt = fields.Str()
     address = fields.Str()

@@ -52,7 +52,8 @@ const Nav = () => {
                 <div className="nav-links">
                     {user.isLoggedIn ? (
                         <>
-                            <Link to="/myorder">My Orders</Link>
+                            {user.type === 'teacher' && <Link to="/myorder-teacher">Manage My Orders</Link>}
+                            {user.type === 'student' && <Link to="/myorder">My Orders</Link>}
                             <Link to="/category">Category</Link>
                             {user.type === 'teacher' && <Link to="/mycars">My Cars</Link>}
                         </>

@@ -61,7 +61,7 @@ const CategoriesSection: React.FC = () => {
                                 image={category.image}
                                 categoryType={category.categoryType}
                                 price={category.price}
-                                onClick={() => handleCardClick(category.categoryType)} // Pass the click handler
+                                onClick={() => handleCardClick(category.categoryType)} 
                             />
                         </SwiperSlide>
                     ))}

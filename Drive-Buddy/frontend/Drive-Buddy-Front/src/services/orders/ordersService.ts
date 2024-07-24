@@ -28,6 +28,19 @@ export const getOrderByUserId = async (): Promise<OrderModel> => {
   return responseJson;
 }
 
+export const getOrderByTeacher = async (): Promise<OrderModel> => {
+  let token = localStorage.getItem('token')
+
+  const response = await axios.get(`${BASE_URL}/purchase_teacher`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }, 
+    withCredentials : true
+  });
+
+  let responseJson = await response.data
+  return responseJson;
+}
 
 // Get all orders
 export const getAllOrders = async (): Promise<OrderModel[]> => {
@@ -59,6 +72,56 @@ export const createOrder = async (order: OrderRequest): Promise<boolean> => {
   }
 };
 
+export const cancelOrder = async (orderId: string): Promise<boolean> => {
+  try {
+    let order = await getOrderById(orderId)
+    if(order){
+      let token = localStorage.getItem('token')
+      order.status = 'Canceled'
+      const response = await axios.put(`${BASE_URL}/purchase/${order.id}`, 
+        order,
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }, 
+          withCredentials : true
+        }
+      );
+      console.log(response.data)
+      const responseOk = response.status == 200
+      return responseOk
+    }
+    return false;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error creating order');
+  }
+};
+
+
+export const acceptOrder = async (orderId: string): Promise<boolean> => {
+  try {
+    let order = await getOrderById(orderId)
+    if(order){
+      let token = localStorage.getItem('token')
+      order.status = 'Accepted'
+      const response = await axios.put(`${BASE_URL}/purchase/${order.id}`, 
+        order,
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }, 
+          withCredentials : true
+        }
+      );
+      console.log(response.data)
+      const responseOk = response.status == 200
+      return responseOk
+    }
+    return false;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error creating order');
+  }
+};
 // Edit an existing order
 export const editOrder = async (id: string, order: IOrder): Promise<IOrder> => {
   try {

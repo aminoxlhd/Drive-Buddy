@@ -29,10 +29,10 @@ const Login = () => {
                 type: userType,
                 avatarUrl: response.avatarUrl || 'assets/default-avatar.jpg',
             });
-            navigate('/'); // Navigate to home page after successful login
+            window.location.href = "/"
 
         } catch (err) {
-            console.error('Login error:', err); // Log any errors
+            console.error('Login error:', err);
             setError('Login failed. Please check your credentials and try again.');
         }
     };
