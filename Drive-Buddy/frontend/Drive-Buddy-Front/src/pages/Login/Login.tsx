@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.scss';
 import { getCurrentStudent, getCurrentTeacher, loginUser } from '../../services/auth/auth'; // Import loginUser function
+import girlly from '../../assets/girlly.jpg';
 
 
 
@@ -83,7 +84,7 @@ const Login = () => {
                 <button onClick={handleLogin}>Login</button>
             </div>
             <div className="login-image">
-                <img src="../assets/girlly.jpg" alt="Login" />
+                <img src={girlly} alt="Login" />
             </div>
         </div>
     );

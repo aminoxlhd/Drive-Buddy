@@ -1,7 +1,7 @@
 // components/Profile.tsx
 
 import React, { useState, useEffect } from 'react';
-import { getCurrentStudent, getCurrentTeacher, updateCurrentStudent } from '../../services/auth/auth';
+import { getCurrentStudent, getCurrentTeacher, updateCurrentStudent, updateCurrentTeacher } from '../../services/auth/auth';
 import { Student, Teacher } from '../../services/auth/auth.interface';
 import { uploadImage } from '../../services/cloudinary/cloudinary';
 
@@ -40,7 +40,10 @@ const Profile = () => {
         if (e.target.files) {
             uploadImage(e.target.files[0]).then(res => {
                 user.media = res
-                updateCurrentStudent(user).then(() => {}).catch(e => {}) 
+                if(userType == 'student')
+                    updateCurrentStudent(user).then(() => {}).catch(e => {}) 
+                else
+                    updateCurrentTeacher(user).then(() => {}).catch(e => {})
                 setAvatar(res);
 
             })
