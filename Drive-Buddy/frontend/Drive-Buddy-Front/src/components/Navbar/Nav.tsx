@@ -30,6 +30,7 @@ const Nav = () => {
             avatarUrl: '',
             isAdmin : false
         });
+        localStorage.clear()
         navigate('/');
     };
 

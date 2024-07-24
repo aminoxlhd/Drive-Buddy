@@ -3,30 +3,34 @@ import { ResponseData, TeacherSignupData } from './Teacher';
 
 const BASE_URL = 'http://localhost:5000/teacher';
 
-export const signupTeacher = async (data: TeacherSignupData): Promise<ResponseData> => {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-        const value = data[key as keyof TeacherSignupData];
-        if (key === 'driverLicense' && value) {
-            formData.append(key, value);
-        } else {
-            formData.append(key, value as string);
+
+export const createTeacher = async (formData: TeacherSignupData): Promise<boolean> => {
+    try {
+      let token = localStorage.getItem('token')
+      const response = await axios.post(`${BASE_URL}`, 
+        {
+          email : formData.email,
+          password : formData.password,
+          first_name : formData.firstName,
+          last_name : formData.lastName,
+          date_birth : formData.dateOfBirth,
+          phone_number : formData.phoneNumber
+        },
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }, 
+          withCredentials : true
         }
-    });
-
-    const response = await fetch(BASE_URL, {
-        method: 'POST',
-        body: formData,
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error('Signup failed: ' + errorData.message);
+      );
+      const responseOk = response.status == 200
+      return responseOk
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Error creating order');
     }
-
-    return response.json();
-};
-
+  };
+  
+  
 
 export const getTeachers = async() => {
     let token = localStorage.getItem('token')

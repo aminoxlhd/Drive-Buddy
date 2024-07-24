@@ -13,14 +13,31 @@ export interface StudentFormData {
 
 const BASE_URL = 'http://localhost:5000/student';
 
-export async function createStudent(formData: StudentFormData): Promise<any> {
+export const createStudent = async (formData: StudentFormData): Promise<boolean> => {
   try {
-    const response = await axios.post('http://localhost:5000/api/signup/student', formData);
-    return response.data; // Assuming backend returns some data on successful signup
+    let token = localStorage.getItem('token')
+    const response = await axios.post(`${BASE_URL}`, 
+      {
+        email : formData.email,
+        password : formData.password,
+        first_name : formData.firstName,
+        last_name : formData.lastName,
+        date_birth : formData.dateOfBirth,
+        phone_number : formData.phoneNumber
+      },
+      {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }, 
+        withCredentials : true
+      }
+    );
+    const responseOk = response.status == 200
+    return responseOk
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to sign up student');
+    throw new Error(error.response?.data?.message || 'Error creating order');
   }
-}
+};
 
 
 export const getStudents = async() => {

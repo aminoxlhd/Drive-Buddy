@@ -45,7 +45,7 @@ export const getOrderByTeacher = async (): Promise<OrderModel> => {
 // Get all orders
 export const getAllOrders = async (): Promise<OrderModel[]> => {
   let token = localStorage.getItem('token')
-  const response = await axios.get(`${BASE_URL}`, {
+  const response = await axios.get(`${BASE_URL}/purchase`, {
     headers: {
       Authorization: `Bearer ${token}`
     }, 
@@ -60,7 +60,7 @@ export const getAllOrders = async (): Promise<OrderModel[]> => {
 
 export const deleteOrder = async (orderId : string): Promise<boolean> => {
   let token = localStorage.getItem('token')
-  const response = await axios.delete(`${BASE_URL}/${orderId}`, {
+  const response = await axios.delete(`${BASE_URL}/purchase/${orderId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }, 

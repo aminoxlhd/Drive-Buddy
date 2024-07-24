@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useNavigate } from 'react-router-dom';
 import { deleteVehicule } from '../../services/vehicule/VehiculeService';
+import 'bootstrap/dist/css/bootstrap.css';
 
 interface VehiculeListProps {
   vehicules: VehiculeModel[];
@@ -14,7 +15,8 @@ const VehiculeList = ({ vehicules }: VehiculeListProps) => {
   const removeCarBtn = (carId : string) => {
     deleteVehicule(carId).then(res => {
       if(res){
-          setMessage("Teacher deleted.")
+          setMessage("Car deleted.")
+          window.location.href = '/cars'
       }
   })
   }
@@ -36,7 +38,7 @@ const VehiculeList = ({ vehicules }: VehiculeListProps) => {
         {vehicules.map((vehicule) => (
           <tr key={vehicule.id}>
             <td>{vehicule.id}</td>
-            <td><img src={vehicule.imageUrl}/></td>
+            <td><img className="img-thumbnail rounded" height={150} width={150} src={vehicule.imageUrl}/></td>
             <td>{vehicule.title}</td>
             <td>{vehicule.category}</td>
             <td>{vehicule.price}</td>

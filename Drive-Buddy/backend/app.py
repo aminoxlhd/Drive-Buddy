@@ -196,7 +196,10 @@ def get_all_student():
 def create_student():
     student_data = request.get_json()
     student_schema = StudentSchema()
+    last_id = get_next_id(student_collection)
+
     try:
+        student_data['id'] = last_id
         validated_data = student_schema.load(student_data)
         user_password = validated_data.get('password')
         hashed_password = bcrypt.generate_password_hash(user_password).decode('utf-8')
@@ -343,6 +346,8 @@ def get_all_teacher():
 def create_teacher():
     teacher_data = request.get_json()
     teacher_schema = TeacherSchema()
+    lastId = get_next_id(teacher_collection)
+    teacher_data['id'] = lastId
     try:
         validated_data = teacher_schema.load(teacher_data)
         user_password = validated_data.get('password')
@@ -351,6 +356,7 @@ def create_teacher():
         teacher_collection.insert_one(validated_data)
         return {'message': 'Teacher created successfully!'}
     except marshmallow.ValidationError as err:
+        print(err)
         return jsonify({'errors': err.messages}), 400
 
 
@@ -687,11 +693,10 @@ def login():
     type = data['type']
     if type == 'student':
         user = student_collection.find_one({"email": email})
-    elif type == "student":
+    elif type == "teacher":
         user = teacher_collection.find_one({"email": email})
     else : # Admin
         user = admin_collection.find_one({"email" : email})
-
     if user and bcrypt.check_password_hash(user.get('password'), password):
         access_token = create_access_token(identity=user.get('id'), expires_delta=timedelta(minutes=60))
         return jsonify({'message': 'Login Success', 'access_token': access_token})
@@ -714,7 +719,13 @@ def add_admin():
         return jsonify({'errors': err.messages}), 400
 
 def get_next_id(collection : any):
-    last_id = collection.find({}, {"id": 1}, sort=[('id', -1)]).limit(1).next()
-    return str(int(last_id['id']) + 1)
+    try:
+        last_id = collection.find({}, {"id": 1}, sort=[('id', -1)]).limit(1).next()
+        if not last_id:
+            return str(0)
+        return str(int(last_id['id']) + 1)
+    except:
+        return str(0)
+
 if __name__ == '__main__':
     app.run(debug=True)

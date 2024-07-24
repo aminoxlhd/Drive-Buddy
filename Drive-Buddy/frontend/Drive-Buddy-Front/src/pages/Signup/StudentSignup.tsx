@@ -24,17 +24,10 @@ const StudentSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await createStudent({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        dateOfBirth: formData.dateOfBirth,
-        phoneNumber: formData.phoneNumber,
-        password: formData.password,
-      });
+      const response = await createStudent(formData);
 
       console.log('Student signed up successfully:', response);
-      navigate('/studentprofile'); // Redirect to student profile page
+      navigate('/login'); // Redirect to student profile page
 
     } catch (error) {
       setError(error.message);

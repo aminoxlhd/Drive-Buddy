@@ -15,6 +15,7 @@ const OrdersList = ({ orders }: OrdersListProps) => {
     deleteOrder(orderId).then(res => {
         if(res){
             setMessage("Order deleted.")
+            window.location.href = '/purchases'
         }
     })
   }

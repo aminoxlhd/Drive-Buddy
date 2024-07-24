@@ -4,11 +4,7 @@ export interface TeacherSignupData {
   email: string;
   dateOfBirth: string;
   phoneNumber: string;
-  vehicleModelYear: string;
-  vehicleCategory: string;
-  vehicleType: string;
-  driverLicense: File | null;
-  acceptConditions: boolean;
+  password: string;
 }
 
 export interface ResponseData {
