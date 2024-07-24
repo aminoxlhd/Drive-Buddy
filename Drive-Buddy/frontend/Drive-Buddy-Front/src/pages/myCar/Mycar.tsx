@@ -3,10 +3,11 @@ import "./Mycar.scss"
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useParams } from 'react-router-dom';
 import { createVehicule, getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
+import { uploadFileToCloudinary, uploadImage } from '../../services/cloudinary/cloudinary';
 
 
 interface Documents {
-    drivingLicence: File | null;
+    photo: File | null;
     insurance: File | null;
     certification: File | null;
     carDetails: File | null;
@@ -37,15 +38,21 @@ const MyCar = () => {
     
 
     const [documents, setDocuments] = useState<Documents>({
-        drivingLicence: null,
+        photo: null,
         insurance: null,
         certification: null,
         carDetails: null,
     });
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const { name, files } = e.target;
         if (files && files.length > 0) {
+            console.log(documents.photo)
+            if(documents.photo){
+                // let url = await uploadFileToCloudinary(documents.photo)
+                // console.log(url);
+                
+            }
             setDocuments({ ...documents, [name]: files[0] });
         }
     };
@@ -119,17 +126,17 @@ const MyCar = () => {
                     </div>
                 </div>
                 <div className="documents-upload-section">
-                    <h3>Upload Documents</h3>
-                    <div className={`document-upload ${documents.drivingLicence ? 'approved' : ''}`}>
+                    <h3>Upload Car Image</h3>
+                    <div className={`document-upload ${documents.photo ? 'approved' : ''}`}>
                         <div className="document-label">
                             <span className="icon">📄</span>
-                            Driving Licence
+                            Car Image
                         </div>
                         <div className="document-status">
-                            {documents.drivingLicence ? 'State: Approved' : 'Upload your driving licence'}
+                            {documents.photo ? 'State: Approved' : 'Upload your driving licence'}
                             <input
                                 type="file"
-                                name="drivingLicence"
+                                name="photo"
                                 onChange={handleFileChange}
                             />
                         </div>

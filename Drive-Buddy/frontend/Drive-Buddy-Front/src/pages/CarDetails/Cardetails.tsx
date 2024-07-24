@@ -21,11 +21,11 @@ const recommendedCars = [
 const CarDetails = () => {
     const { id } = useParams();
     const [car, setCar] = useState<VehiculeModel>({
-        id : 1,
+        id : "1",
         imageUrl: carBackground,
         title: 'Clio 4',
         category: 'Category B',
-        rating: 4.9,
+        rating: "4.9",
         ownerName: 'Younes Drissi',
         location: '23 avenue de marseille - France',
         price: "100", // Sample price, adjust as needed
@@ -59,34 +59,6 @@ const CarDetails = () => {
     }
 
 
-    // Function to handle PayPal payment
-    const handlePayPalPayment = async () => {
-        const paymentData = {
-            id: 'your_payment_id', // Generate a unique payment ID
-            studentId: 'your_student_id', // Fetch the actual student ID
-            teacherId: 'your_teacher_id', // Fetch the actual teacher ID
-            category: car.category,
-            price: car.price,
-            date: new Date(),
-        };
-
-        const paymentInitiated = await initiatePayment(paymentData);
-        if (paymentInitiated) {
-            // Handle success (e.g., show success message, redirect to confirmation page)
-            console.log('Payment initiated successfully');
-        } else {
-            // Handle failure (e.g., show error message)
-            console.error('Payment initiation failed');
-        }
-    };
-
-    // Function to handle Credit Card payment
-    const handleCreditCardPayment = async () => {
-        // Implement Credit Card payment logic
-        console.log('Initiating Credit Card payment...');
-        // Similar to PayPal payment, use initiatePayment function
-    };
-
     return (
         <div className="container">
             <div className="car-details-container">
@@ -99,7 +71,7 @@ const CarDetails = () => {
                             <p>{car.category}</p>
                             <p>{car.ownerName}</p>
                             <p>{car.location}</p>
-                            <p>Rating: {'⭐'.repeat(Math.floor(car.rating))} {car.rating}</p>
+                            <p>Rating: {'⭐'.repeat(Math.floor(Number(car.rating)))} {car.rating}</p>
                         </div>
                     </div>
                     <div className="reservation-section">
