@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { ResponseData, TeacherSignupData } from './Teacher';
+import { TeacherSignupData } from './Teacher';
 
 const BASE_URL = 'http://localhost:5000/teacher';
 
 
 export const createTeacher = async (formData: TeacherSignupData): Promise<boolean> => {
     try {
-      let token = localStorage.getItem('token')
+      const token = localStorage.getItem('token')
       const response = await axios.post(`${BASE_URL}`, 
         {
           email : formData.email,
@@ -33,7 +33,7 @@ export const createTeacher = async (formData: TeacherSignupData): Promise<boolea
   
 
 export const getTeachers = async() => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.get(`${BASE_URL}`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -41,13 +41,13 @@ export const getTeachers = async() => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
 }
 
 
 export const deleteTeacher = async(teacherId : string) => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.delete(`${BASE_URL}/${teacherId}`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -55,6 +55,6 @@ export const deleteTeacher = async(teacherId : string) => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
 }

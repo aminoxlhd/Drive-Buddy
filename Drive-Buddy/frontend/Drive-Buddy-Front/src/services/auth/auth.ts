@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { LoginData, Student, Teacher } from './auth.interface';
+import { LoginData, LoginResponse, Student, Teacher } from './auth.interface';
 
 const BASE_URL = 'http://localhost:5000';
 
-export const loginUser = async (data: LoginData): Promise<any> => {
+export const loginUser = async (data: LoginData): Promise<LoginResponse> => {
     const response = await fetch(BASE_URL + '/login', {
         method: 'POST',
         headers: {
@@ -17,13 +17,13 @@ export const loginUser = async (data: LoginData): Promise<any> => {
         throw new Error('Login failed: ' + errorData.message);
     }
 
-    let responseJson = response.json();
+    const responseJson = response.json();
     return responseJson;
 };
 
 
 export const getCurrentStudent = async (): Promise<Student> => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
   
     const response = await axios.get(`${BASE_URL}/current_student`, {
       headers: {
@@ -32,13 +32,13 @@ export const getCurrentStudent = async (): Promise<Student> => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
   }
   
 
 export const getCurrentTeacher = async (): Promise<Teacher> => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
   
     const response = await axios.get(`${BASE_URL}/current_teacher`, {
       headers: {
@@ -47,12 +47,12 @@ export const getCurrentTeacher = async (): Promise<Teacher> => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
   }
 
 export const updateCurrentStudent = async (student : Student): Promise<void> => {
-let token = localStorage.getItem('token')
+const token = localStorage.getItem('token')
 
 const response = await axios.put(`${BASE_URL}/current_student`,
     student,
@@ -65,12 +65,12 @@ const response = await axios.put(`${BASE_URL}/current_student`,
     
 );
 
-let responseJson = await response.data
+const responseJson = await response.data
 return responseJson;
 }
 
 export const updateCurrentTeacher = async (teacher : Teacher): Promise<void> => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     
     const response = await axios.put(`${BASE_URL}/current_teacher`,
         teacher,
@@ -83,7 +83,7 @@ export const updateCurrentTeacher = async (teacher : Teacher): Promise<void> => 
         
     );
     
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
     }
     

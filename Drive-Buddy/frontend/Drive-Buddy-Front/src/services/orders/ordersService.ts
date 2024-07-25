@@ -15,7 +15,7 @@ export const getOrderById = async (id: string | undefined): Promise<OrderModel> 
 };
 
 export const getOrderByUserId = async (): Promise<OrderModel> => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
 
   const response = await axios.get(`${BASE_URL}/purchase_user`, {
     headers: {
@@ -24,12 +24,12 @@ export const getOrderByUserId = async (): Promise<OrderModel> => {
     withCredentials : true
   });
 
-  let responseJson = await response.data
+  const responseJson = await response.data
   return responseJson;
 }
 
 export const getOrderByTeacher = async (): Promise<OrderModel[]> => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
 
   const response = await axios.get(`${BASE_URL}/purchase_teacher`, {
     headers: {
@@ -38,13 +38,13 @@ export const getOrderByTeacher = async (): Promise<OrderModel[]> => {
     withCredentials : true
   });
 
-  let responseJson = await response.data
+  const responseJson = await response.data
   return responseJson;
 }
 
 // Get all orders
 export const getAllOrders = async (): Promise<OrderModel[]> => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
   const response = await axios.get(`${BASE_URL}/purchase`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -52,14 +52,14 @@ export const getAllOrders = async (): Promise<OrderModel[]> => {
     withCredentials : true
   });
 
-  let responseJson = await response.data
+  const responseJson = await response.data
   return responseJson;
 };
 
 
 
 export const deleteOrder = async (orderId : string): Promise<boolean> => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
   const response = await axios.delete(`${BASE_URL}/purchase/${orderId}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -72,7 +72,7 @@ export const deleteOrder = async (orderId : string): Promise<boolean> => {
 // Create a new order
 export const createOrder = async (order: OrderRequest): Promise<boolean> => {
   try {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.post(`${BASE_URL}/purchase`, 
       order,
       {
@@ -91,9 +91,9 @@ export const createOrder = async (order: OrderRequest): Promise<boolean> => {
 
 export const cancelOrder = async (orderId: string): Promise<boolean> => {
   try {
-    let order = await getOrderById(orderId)
+    const order = await getOrderById(orderId)
     if(order){
-      let token = localStorage.getItem('token')
+      const token = localStorage.getItem('token')
       order.status = 'Canceled'
       const response = await axios.put(`${BASE_URL}/purchase/${order.id}`, 
         order,
@@ -117,9 +117,9 @@ export const cancelOrder = async (orderId: string): Promise<boolean> => {
 
 export const acceptOrder = async (orderId: string): Promise<boolean> => {
   try {
-    let order = await getOrderById(orderId)
+    const order = await getOrderById(orderId)
     if(order){
-      let token = localStorage.getItem('token')
+      const token = localStorage.getItem('token')
       order.status = 'Accepted'
       const response = await axios.put(`${BASE_URL}/purchase/${order.id}`, 
         order,

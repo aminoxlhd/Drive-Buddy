@@ -13,7 +13,7 @@ export const getAllVehicules = async (): Promise<VehiculeModel[]> => {
 
 
 export const getAllVehiculesByTeacher = async (): Promise<VehiculeModel[]> => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.get(`http://localhost:5000/vehicule_by_teacher`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -21,7 +21,7 @@ export const getAllVehiculesByTeacher = async (): Promise<VehiculeModel[]> => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
 }
 
@@ -34,11 +34,7 @@ export const getVehicule = async (id : string | undefined): Promise<VehiculeMode
 }
 
 export const updateVehicule = async (vehicule : VehiculeModel): Promise<void> => {
-    /*const data = new FormData();
-    Object.keys(vehicule).forEach((key) => {
-        data.append(key, (vehicule as any)[key]);
-    });*/
-    const response = await axios.put(BASE_URL + "/" + vehicule.id,
+    await axios.put(BASE_URL + "/" + vehicule.id,
         vehicule
     );
 
@@ -46,7 +42,7 @@ export const updateVehicule = async (vehicule : VehiculeModel): Promise<void> =>
 
 
 export const createVehicule = async (vehicule : VehiculeModel): Promise<void> => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     vehicule.id = "11"
     const response = await axios.post(`${BASE_URL}`, 
         vehicule,
@@ -58,7 +54,7 @@ export const createVehicule = async (vehicule : VehiculeModel): Promise<void> =>
         }
     );
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
 
 }
@@ -67,7 +63,7 @@ export const createVehicule = async (vehicule : VehiculeModel): Promise<void> =>
 
 
 export const deleteVehicule = async(vehiculeId : string) => {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.delete(`${BASE_URL}/${vehiculeId}`, {
       headers: {
         Authorization: `Bearer ${token}`
@@ -75,6 +71,6 @@ export const deleteVehicule = async(vehiculeId : string) => {
       withCredentials : true
     });
   
-    let responseJson = await response.data
+    const responseJson = await response.data
     return responseJson;
   }

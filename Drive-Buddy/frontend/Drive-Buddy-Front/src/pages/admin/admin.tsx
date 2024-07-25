@@ -22,7 +22,6 @@ export const AdminLoginPage = () => {
             const response = await loginUser(data); 
             localStorage.setItem('token', response.access_token);
             localStorage.setItem('admin', 'true')
-            let avatar = ''
 
             setUser({
                 isLoggedIn: true,

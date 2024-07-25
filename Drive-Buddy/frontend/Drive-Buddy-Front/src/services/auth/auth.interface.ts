@@ -4,6 +4,9 @@ export interface LoginData {
   type : string;
 }
 
+export interface LoginResponse {
+  access_token : string;
+}
 export interface ResponseData {
   message: string;
   access_token?: string;

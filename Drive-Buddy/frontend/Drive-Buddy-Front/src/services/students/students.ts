@@ -15,7 +15,7 @@ const BASE_URL = 'http://localhost:5000/student';
 
 export const createStudent = async (formData: StudentFormData): Promise<boolean> => {
   try {
-    let token = localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const response = await axios.post(`${BASE_URL}`, 
       {
         email : formData.email,
@@ -41,7 +41,7 @@ export const createStudent = async (formData: StudentFormData): Promise<boolean>
 
 
 export const getStudents = async() => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
   const response = await axios.get(`${BASE_URL}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -49,7 +49,7 @@ export const getStudents = async() => {
     withCredentials : true
   });
 
-  let responseJson = await response.data
+  const responseJson = await response.data
   return responseJson;
 }
 
@@ -57,7 +57,7 @@ export const getStudents = async() => {
 
 
 export const deleteStudent = async(studentId : string) => {
-  let token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
   const response = await axios.delete(`${BASE_URL}/${studentId}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -65,6 +65,6 @@ export const deleteStudent = async(studentId : string) => {
     withCredentials : true
   });
 
-  let responseJson = await response.data
+  const responseJson = await response.data
   return responseJson;
 }
