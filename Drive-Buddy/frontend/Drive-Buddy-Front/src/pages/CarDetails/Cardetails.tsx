@@ -2,20 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './Cardetails.scss';
 import carBackground from '../../assets/carBackground.jpg'; // Sample image
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { Navigation, Pagination } from 'swiper/modules';
-import Card from '../../components/card/Card';
 import { getVehicule } from '../../services/vehicule/VehiculeService'
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { createOrder } from '../../services/orders/ordersService';
 
 
-const recommendedCars = [
-    { id: 1, imageUrl: carBackground, category: 'Category A', rating: 4.9 },
-    { id: 2, imageUrl: carBackground, category: 'Category B', rating: 4.8 },
-    { id: 3, imageUrl: carBackground, category: 'Category C', rating: 4.7 },
-];
+
 
 const CarDetails = () => {
     const { id } = useParams();
@@ -91,22 +84,6 @@ const CarDetails = () => {
                         <button className="paypal-button" onClick={handlePurchase}>Order</button>
                     </div>
                 </div>
-                <h3>Recommended</h3>
-                <Swiper modules={[Navigation, Pagination]}
-                    slidesPerView={2}
-                    spaceBetween={16}
-                    pagination={{ clickable: true }}
-                    navigation>
-                    {recommendedCars.map(car => (
-                        <SwiperSlide key={car.id}>
-                            <Card
-                                image={car.imageUrl}
-                                categoryType={car.category}
-                                price={car.rating}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
             </div>
         </div>
     );

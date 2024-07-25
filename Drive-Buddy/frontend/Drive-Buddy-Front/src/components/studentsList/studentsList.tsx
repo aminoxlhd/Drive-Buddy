@@ -15,6 +15,7 @@ const StudentsList = ({ students }: StudentsListProps) => {
     deleteStudent(studentId).then(res => {
         if(res){
             setMessage("Student deleted.")
+            window.location.href = "/students"
         }
     })
   }
