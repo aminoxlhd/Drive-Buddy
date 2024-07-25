@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { Student, Teacher } from '../../services/auth/auth.interface';
 import { useState } from 'react';
 import { deleteStudent } from '../../services/students/students';
@@ -8,7 +7,6 @@ interface StudentsListProps {
 }
 
 const StudentsList = ({ students }: StudentsListProps) => {
-  const navigate = useNavigate();
   const [message, setMessage] = useState("")
   
   const deleteTeacherBtb = (studentId : string) => {

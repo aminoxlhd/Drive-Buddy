@@ -18,7 +18,8 @@ export const OrdersPage = () => {
         createdAt : '2024-07-01',
         address: '123 Main St',
         price : '100',
-        status : 'Accepted'
+        status : 'Accepted',
+        hour : "10:00"
     }])
 
     useEffect(() => {

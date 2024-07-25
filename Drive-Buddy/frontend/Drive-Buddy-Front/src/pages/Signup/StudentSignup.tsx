@@ -30,7 +30,7 @@ const StudentSignup: React.FC = () => {
       navigate('/login'); // Redirect to student profile page
 
     } catch (error) {
-      setError(error.message);
+      setError("Error while signup");
     }
   };
 

@@ -12,7 +12,7 @@ const MyOrderPageTeacher = () => {
         avatarUrl: 'path/to/avatar.jpg',
     });
 
-    const [orders, setOrders] = useState<OrderModel[]>([{
+    const [orders, setOrders] = useState([{
         id: '1',
         studentId: '1',
         vehiculeId: '1',
@@ -22,7 +22,8 @@ const MyOrderPageTeacher = () => {
         createdAt : '2024-07-01',
         address: '123 Main St',
         price : '100',
-        status : 'Accepted'
+        status : 'Accepted',
+        hour : "10:00"
     }])
 
     useEffect(() => {

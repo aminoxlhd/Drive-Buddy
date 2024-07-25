@@ -35,7 +35,7 @@ export const createStudent = async (formData: StudentFormData): Promise<boolean>
     const responseOk = response.status == 200
     return responseOk
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error creating order');
+    throw new Error('Error creating order');
   }
 };
 
