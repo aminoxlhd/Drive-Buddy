@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Nav from "./components/Navbar/Nav";
@@ -15,7 +14,6 @@ import Category from './pages/Category/Category';
 import Login from './pages/Login/Login';
 import StudentSignup from './pages/Signup/StudentSignup';
 import Profile from './pages/profiles/Profile';
-import Settings from './pages/settings/Settings';
 import MyCars from './pages/mycars/mycars';
 import MyOrderPageTeacher from './pages/orderPageTeacher/MyOrderpage';
 import { AdminLoginPage } from './pages/admin/admin';
@@ -24,14 +22,7 @@ import { StudentsPage } from './pages/admin/students/students';
 import { OrdersPage } from './pages/admin/orders/orders';
 import { CarsPage } from './pages/admin/cars/cars';
 
-const sampleCar = {
-  id: '1',
-  imageUrl: 'path/to/carImage.jpg',
-  title: 'Sample Car',
-  category: 'Category A',
-  ownerName: 'John Doe',
-  location: '123 Main St, Anytown, USA',
-};
+
 
 function App() {
 
@@ -54,7 +45,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/StudentSignup" element={<StudentSignup />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
         <Route path="/admin" element={<AdminLoginPage/>}/>
         <Route path="/teachers" element={<TeachersPage/>}/>
         <Route path="/students" element={<StudentsPage/>}/>

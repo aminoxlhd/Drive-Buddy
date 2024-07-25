@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom';
 import './CardExplore.scss';
+interface CardExploreProps {
+    id: string | number; 
+    imageUrl: string;
+    title: string;
+    category: string;
+    rating: number;
+    ownerName: string;
+    ownerPhoto: string;
+    countryEmoji: string;
+  }
 
-const CardExplore = ({ id, imageUrl, title, category, rating, ownerName, ownerPhoto, countryEmoji }) => (
+const CardExplore = ({ id, imageUrl, title, category, rating, ownerName, ownerPhoto, countryEmoji } : CardExploreProps) => (
     <div className="card-explore">
         <Link to={`/car-details/${id}`}>
             <div className="image-container">
