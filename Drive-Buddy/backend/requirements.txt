@@ -6,3 +6,4 @@ pymongo
 marshmallow
 flask_jwt_extended
 flask-bcrypt
+flask_cors
