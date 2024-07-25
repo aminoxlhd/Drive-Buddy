@@ -1,18 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Column, useTable } from 'react-table';
+import  { useState, useEffect } from 'react';
 import './OrderPage.scss';
 import {OrderModel} from '../../services/orders/orders'
-import {getOrderByTeacher, getOrderByUserId} from '../../services/orders/ordersService'
+import {getOrderByTeacher} from '../../services/orders/ordersService'
 import  OrderList  from '../../components/orderList/orderList'
 const MyOrderPageTeacher = () => {
-    const id = "1"
-    const [user, setUser] = useState({
-        isLoggedIn: true,
-        type: 'student', // 'student' or 'teacher'
-        avatarUrl: 'path/to/avatar.jpg',
-    });
-
-    const [orders, setOrders] = useState([{
+    const [orders, setOrders] = useState<OrderModel[]>([{
         id: '1',
         studentId: '1',
         vehiculeId: '1',

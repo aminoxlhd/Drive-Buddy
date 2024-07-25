@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './explore-page.scss';
 import CardExplore from '../../components/CardExplore/CardExplore';
 import carBackground from '../../assets/carBackground.jpg';

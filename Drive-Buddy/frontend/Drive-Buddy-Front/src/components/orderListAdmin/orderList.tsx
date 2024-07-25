@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { OrderModel } from '../../services/orders/orders';
 import { deleteOrder } from '../../services/orders/ordersService';
@@ -8,7 +7,6 @@ interface OrdersListProps {
 }
 
 const OrdersList = ({ orders }: OrdersListProps) => {
-  const navigate = useNavigate();
   const [message, setMessage] = useState("")
   
   const deleteOrderBtn = (orderId : string) => {

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { VehiculeModel } from '../../services/vehicule/Vehicule';
-import { useNavigate } from 'react-router-dom';
 import { deleteVehicule } from '../../services/vehicule/VehiculeService';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -9,7 +8,6 @@ interface VehiculeListProps {
 }
 
 const VehiculeList = ({ vehicules }: VehiculeListProps) => {
-  const navigate = useNavigate();
   const [message, setMessage] = useState("")
   
   const removeCarBtn = (carId : string) => {

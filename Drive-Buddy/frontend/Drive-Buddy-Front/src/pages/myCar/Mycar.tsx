@@ -4,7 +4,6 @@ import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useParams } from 'react-router-dom';
 import { createVehicule, getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
 import {  uploadImage } from '../../services/cloudinary/cloudinary';
-import Select from 'react-select'
 
 
 interface Documents {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { OrderModel } from '../../services/orders/orders'
 import { acceptOrder, cancelOrder } from '../../services/orders/ordersService';
 import 'bootstrap/dist/css/bootstrap.css';

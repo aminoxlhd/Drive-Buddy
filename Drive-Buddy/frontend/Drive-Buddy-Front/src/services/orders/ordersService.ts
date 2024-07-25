@@ -14,7 +14,7 @@ export const getOrderById = async (id: string | undefined): Promise<OrderModel> 
   }
 };
 
-export const getOrderByUserId = async (): Promise<OrderModel> => {
+export const getOrderByUserId = async (): Promise<OrderModel[]> => {
   const token = localStorage.getItem('token')
 
   const response = await axios.get(`${BASE_URL}/purchase_user`, {

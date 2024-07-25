@@ -1,16 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Column, useTable } from 'react-table';
+import { useState, useEffect } from 'react';
 import './OrderPage.scss';
 import {OrderModel} from '../../services/orders/orders'
 import {getOrderByUserId} from '../../services/orders/ordersService'
 import  OrderList  from '../../components/orderList/orderList'
 const MyOrderPage = () => {
-    const id = "1"
-    const [user, setUser] = useState({
-        isLoggedIn: true,
-        type: 'student', // 'student' or 'teacher'
-        avatarUrl: 'path/to/avatar.jpg',
-    });
 
     const [orders, setOrders] = useState<OrderModel[]>([{
         id: '1',
@@ -22,7 +15,8 @@ const MyOrderPage = () => {
         createdAt : '2024-07-01',
         address: '123 Main St',
         price : '100',
-        status : 'Accepted'
+        status : 'Accepted',
+        hour : '10:00'
     }])
 
     useEffect(() => {
