@@ -30,10 +30,19 @@ const CarDetails = () => {
         price: "100", // Sample price, adjust as needed
     })
     
+    const [orderRequest, setOrderRequest] = useState({
+        dateOrder : '',
+        timeOrder : '',
+    })
+
     useEffect(() => {
         getVehicule(id).then(res => setCar(res)).catch(e => console.log(e))
     }, [])
     
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setOrderRequest({ ...orderRequest, [e.target.name]: e.target.value });
+      };
 
 
     const handlePurchase = async () => {
@@ -43,7 +52,8 @@ const CarDetails = () => {
             category : car.category,
             price : car.price,
             address : car.location,
-            date : '01-07-2024',
+            date : orderRequest.dateOrder,
+            hour : orderRequest.timeOrder,
             createdAt : new Date().toDateString()
 
         }).then((created) => {
@@ -75,9 +85,9 @@ const CarDetails = () => {
                     </div>
                     <div className="reservation-section">
                         <h3>Reserve a session</h3>
-                        <input type="date" placeholder="Date" />
+                        <input name="dateOrder" type="date" placeholder="Date" value={orderRequest.dateOrder} onChange={handleChange}/>
                         <input type="text" placeholder="Address" disabled value={car.location}/>
-                        <input type="time" placeholder="Time" />
+                        <input name="timeOrder" type="time" placeholder="Time" value={orderRequest.timeOrder} onChange={handleChange}/>
                         <button className="paypal-button" onClick={handlePurchase}>Order</button>
                     </div>
                 </div>

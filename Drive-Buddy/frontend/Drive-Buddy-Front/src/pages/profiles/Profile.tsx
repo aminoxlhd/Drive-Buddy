@@ -71,49 +71,55 @@ const Profile = () => {
     
 
     return (
-        <div className="container profile-container">
-            <h1>Student Profile</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="avatar form-groupe">
-                    <img src={user.media || '/default-avatar.png'} alt="User Avatar" />
-                    <br/>
-                    <input type="file" name="avatarUrl" onChange={handleAvatarChange} />
-                </div>
-                <div className="user-details">
-                    <div className="form-group">
-                        <label>
-                            First Name:
-                            <input
-                                type="text"
-                                name="firstName"
-                                value={user.first_name}
-                                onChange={handleChange}
-                                disabled
-                            />
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            Last Name:
-                            <input
-                                type="text"
-                                name="lastName"
-                                value={user.last_name}
-                                onChange={handleChange} 
-                                disabled
-                            />
-                        </label>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            Email:
-                            <input type="email" name="email" value={user.email} onChange={handleChange} />
-                        </label>
-                    </div>
-                    <button className="btn btn-primary" type="submit">Update Profile</button>
-                </div>
-            </form>
-        </div>
+    <div className="settings">
+    <h2>Profile</h2>
+    <form className="settings-form" onSubmit={handleSubmit}>
+    <div className="form-group">
+        <label htmlFor="email">Email:</label>
+        <input
+        type="email"
+        id="email"
+        name="email"
+        value={user.email}
+        onChange={handleChange}
+        />
+    </div>
+    <div className="form-group">
+        <label htmlFor="name">First Name:</label>
+        <input
+        type="text"
+        id="name"
+        name="name"
+        value={user.first_name}
+        onChange={handleChange}
+        disabled
+        />
+    </div>
+    <div className="form-group">
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        value={user.last_name}
+        onChange={handleChange}
+        disabled
+        />
+    </div>
+    <div className="form-group">
+        <label htmlFor="profilePicture">Profile Picture:</label>
+        <input
+        type="file"
+        id="profilePicture"
+        name="profilePicture"
+        onChange={handleAvatarChange}
+        />
+    </div>
+    <button type="submit" className="save-button">Save Changes</button>
+    </form>
+    </div>
+
+
     );
 };
 

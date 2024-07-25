@@ -39,12 +39,9 @@ const Nav = () => {
         setIsDropdownVisible(false); // Close dropdown after navigation
     };
 
-    const goToSettings = () => {
-        navigate('/Settings');
-        setIsDropdownVisible(false); // Close dropdown after navigation
-    };
 
 
+    
 
     return (
         <div className="container">
@@ -85,12 +82,11 @@ const Nav = () => {
                     {user.isLoggedIn ? (
                         <div className="user-info">
                             <div className="profile-avatar" onClick={toggleDropdown}>
-                                <img src={user.avatarUrl || defaultAvatar} alt="Profile" />
+                                <img src={user.avatarUrl ? user.avatarUrl : defaultAvatar} alt="Profile" />
                             </div>
                             {isDropdownVisible && (
                                 <div className="dropdown-menu">
                                     <button onClick={goToProfile}>Profile</button>
-                                    <button onClick={goToSettings}>Settings</button>
                                     <button onClick={handleLogout}>Logout</button>
                                 </div>
                             )}

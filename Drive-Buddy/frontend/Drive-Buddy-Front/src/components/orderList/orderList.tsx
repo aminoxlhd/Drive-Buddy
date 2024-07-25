@@ -34,6 +34,7 @@ const OrderList = ({ orders }: OrderListProps) => {
           <tr>
             <th>ID</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Category</th>
             <th>Price</th>
             <th>Status</th>
@@ -46,6 +47,7 @@ const OrderList = ({ orders }: OrderListProps) => {
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.date}</td>
+              <td>{order.hour}</td>
               <td>{order.category}</td>
               <td>{order.price}</td>
               <td>{order.status}</td>

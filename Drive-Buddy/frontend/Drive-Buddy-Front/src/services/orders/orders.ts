@@ -8,6 +8,7 @@ export interface OrderModel {
     status : string;
     address: string;
     date: string;
+    hour: string;
     createdAt: string;
   }  
 
@@ -20,5 +21,6 @@ export interface OrderModel {
     price: string;
     address: string;
     date: string;
+    hour : string;
     createdAt: string;
   }  

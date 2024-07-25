@@ -4,6 +4,7 @@ import { VehiculeModel } from '../../services/vehicule/Vehicule';
 import { useParams } from 'react-router-dom';
 import { createVehicule, getVehicule, updateVehicule } from '../../services/vehicule/VehiculeService';
 import {  uploadImage } from '../../services/cloudinary/cloudinary';
+import Select from 'react-select'
 
 
 interface Documents {
@@ -13,7 +14,12 @@ interface Documents {
     carDetails: File | null;
 }
 
-
+const categories = [
+    { value: 'Category A', label: 'Category A' },
+    { value: 'Category B', label: 'Category B' },
+    { value: 'Category C', label: 'Category C' },
+    { value: 'Category D', label: 'Category D' }
+  ]
 
 const MyCar = () => {
     const { id } = useParams();
@@ -80,6 +86,7 @@ const MyCar = () => {
             updateVehicule(car).then(res => {}).catch(e => console.log(e))
         }
         setShowMessage(true)
+        window.location.href = '/mycars'
     };
 
     return (

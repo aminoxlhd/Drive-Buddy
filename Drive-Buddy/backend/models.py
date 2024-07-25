@@ -76,5 +76,6 @@ class PurchaseSchema(Schema):
     price = fields.Str()
     status = fields.Str()
     date = fields.Str()
+    hour = fields.Str()
     createdAt = fields.Str()
     address = fields.Str()

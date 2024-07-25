@@ -600,6 +600,7 @@ def create_purchase():
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
             return response
         except marshmallow.ValidationError as err:
+            print(err)
             return jsonify({'errors': err.messages}), 400
 
 
@@ -720,7 +721,7 @@ def add_admin():
 
 def get_next_id(collection : any):
     try:
-        last_id = collection.find({}, {"id": 1}, sort=[('id', -1)]).limit(1).next()
+        last_id = collection.find({}, {"id": 1}, sort=[('_id', -1)]).limit(1).next()
         if not last_id:
             return str(0)
         return str(int(last_id['id']) + 1)
